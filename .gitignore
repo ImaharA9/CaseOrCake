@@ -1,0 +1,11 @@
+# 签名密钥（绝不提交到仓库！）
+keystore/
+
+# 系统垃圾文件
+Thumbs.db
+.DS_Store
+*.idsig
+
+# 本地临时文件
+*.local.md
+*.tmp

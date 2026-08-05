@@ -54,7 +54,7 @@ svg{display:block}
 .tab-nav::-webkit-scrollbar{display:none}
 .tab{flex-shrink:0;padding:8px 14px;border-radius:var(--r-full);font-size:var(--fs-sm);font-weight:500;color:var(--text-2);transition:all var(--t-fast);white-space:nowrap;display:flex;align-items:center;gap:6px}
 .tab:hover{background:var(--surface-2)}
-.tab.active{background:var(--text);color:#fff;font-weight:600}
+.tab.active{background:var(--accent);color:#fff;font-weight:600}
 .tab svg{width:15px;height:15px}
 
 /* ===== Main ===== */
@@ -68,8 +68,8 @@ svg{display:block}
 .card-title{font-size:var(--fs-sm);font-weight:600;color:var(--text-2);text-transform:uppercase;letter-spacing:.05em;margin-bottom:var(--sp-3);display:flex;align-items:center;justify-content:space-between}
 .section-title{font-size:var(--fs-lg);font-weight:700;letter-spacing:-.01em;margin-bottom:var(--sp-4)}
 .btn{padding:10px 18px;border-radius:var(--r-sm);font-size:var(--fs-sm);font-weight:600;transition:all var(--t-fast);display:inline-flex;align-items:center;gap:6px;min-height:44px;justify-content:center}
-.btn-primary{background:var(--text);color:#fff}
-.btn-primary:hover{background:#000}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:hover{background:var(--accent-text)}
 .btn-secondary{background:var(--surface-2);color:var(--text)}
 .btn-secondary:hover{background:var(--surface-3)}
 .btn-accent{background:var(--accent);color:#fff}
@@ -103,11 +103,11 @@ svg{display:block}
 @media(min-width:600px){.modal-overlay{align-items:center}.modal{border-radius:var(--r-xl);animation:scaleIn .2s ease}@keyframes scaleIn{from{transform:scale(.95);opacity:0}to{transform:scale(1);opacity:1}}}
 
 /* ===== Toast ===== */
-.toast{position:fixed;top:64px;left:50%;transform:translateX(-50%);z-index:300;background:var(--text);color:#fff;padding:10px 20px;border-radius:var(--r-full);font-size:var(--fs-sm);font-weight:500;box-shadow:var(--shadow-lg);animation:toastIn .3s ease;display:flex;align-items:center;gap:8px;max-width:90vw}
+.toast{position:fixed;bottom:calc(24px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);z-index:300;background:var(--text);color:#fff;padding:10px 20px;border-radius:var(--r-full);font-size:var(--fs-sm);font-weight:500;box-shadow:var(--shadow-lg);animation:toastIn .3s ease;display:flex;align-items:center;gap:8px;max-width:90vw}
 .toast.error{background:var(--expense)}
 .toast.success{background:var(--income)}
 .toast.warning{background:var(--warning)}
-@keyframes toastIn{from{opacity:0;transform:translate(-50%,-12px)}to{opacity:1;transform:translate(-50%,0)}}
+@keyframes toastIn{from{opacity:0;transform:translate(-50%,12px)}to{opacity:1;transform:translate(-50%,0)}}
 .toast svg{width:16px;height:16px;flex-shrink:0}
 
 /* ===== Backup Banner ===== */
@@ -170,7 +170,7 @@ svg{display:block}
 .fin-toolbar{display:flex;gap:8px;margin-bottom:var(--sp-4);flex-wrap:wrap}
 .filter-chip{padding:6px 14px;border-radius:var(--r-full);font-size:var(--fs-xs);font-weight:500;background:var(--surface);border:1px solid var(--border);color:var(--text-2);transition:all var(--t-fast);white-space:nowrap}
 .filter-chip:hover{border-color:var(--text-3)}
-.filter-chip.active{background:var(--text);color:#fff;border-color:var(--text)}
+.filter-chip.active{background:var(--accent);color:#fff;border-color:var(--accent)}
 
 .chart-wrap{background:var(--surface);border-radius:var(--r-lg);padding:var(--sp-4);box-shadow:var(--shadow-sm);border:1px solid var(--border-2);margin-bottom:var(--sp-4)}
 .chart-wrap .chart-title{font-size:var(--fs-sm);font-weight:600;color:var(--text-2);margin-bottom:var(--sp-3)}
@@ -211,7 +211,7 @@ svg{display:block}
 .habit-count-val{font-size:var(--fs-lg);font-weight:700;min-width:36px;text-align:center}
 .habit-input{width:80px;padding:6px 10px;border:1px solid var(--border);border-radius:var(--r-sm);font-size:var(--fs-sm);text-align:center}
 .heatmap{display:flex;gap:3px;flex-wrap:wrap;margin-top:4px}
-.heat-cell{width:14px;height:14px;border-radius:3px;background:var(--surface-2);transition:transform var(--t-fast)}
+.heat-cell{width:14px;height:14px;border-radius:3px;background:var(--surface-2);transition:transform var(--t-fast);cursor:pointer}
 .heat-cell:hover{transform:scale(1.3)}
 .heat-cell.l1{background:var(--accent-bg)}
 .heat-cell.l2{background:#C7D2FE}
@@ -293,7 +293,7 @@ svg{display:block}
 
 /* ===== Media Module ===== */
 .media-toolbar{display:flex;gap:8px;margin-bottom:var(--sp-4);align-items:center;flex-wrap:wrap}
-.media-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--sp-3);margin-bottom:var(--sp-4)}
+.media-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(64px,1fr));gap:var(--sp-3);margin-bottom:var(--sp-4)}
 .media-stat{background:var(--surface);border-radius:var(--r-md);padding:14px;box-shadow:var(--shadow-sm);border:1px solid var(--border-2);text-align:center}
 .media-stat .ms-val{font-size:var(--fs-xl);font-weight:700}
 .media-stat .ms-label{font-size:var(--fs-xs);color:var(--text-2);margin-top:2px}
@@ -437,6 +437,25 @@ function fmtDateFull(s){const d=parseDate(s);const w=['日','一','二','三','�
 function monthStr(s){return s.slice(0,7)}
 function currentMonth(){return todayStr().slice(0,7)}
 function clamp(v,min,max){return Math.max(min,Math.min(max,v))}
+/* HTML 转义：所有用户输入插入 innerHTML 前必须过一遍 */
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+/* 统一文件导出：WebView 内 a.download 无效，优先走原生桥写入系统下载目录 */
+function saveFile(name,content,mime){
+  if(window.AndroidBridge&&typeof window.AndroidBridge.saveFile==='function'){
+    try{
+      const b64=btoa(unescape(encodeURIComponent(content)));
+      return window.AndroidBridge.saveFile(b64,name,mime||'application/octet-stream')?'bridge':'fail';
+    }catch(e){console.error('桥接保存失败',e);}
+  }
+  try{
+    const blob=new Blob([content],{type:(mime||'text/plain')+';charset=utf-8'});
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement('a');
+    a.href=url;a.download=name;a.click();
+    setTimeout(()=>URL.revokeObjectURL(url),1000);
+    return 'browser';
+  }catch(e){UI.toast('导出失败：'+e.message,'error');return 'fail';}
+}
 
 /* ===== Storage Layer ===== */
 const Store = {
@@ -507,12 +526,10 @@ const Data = {
     getLog(habitId,date){return this.logs().find(l=>l.habitId===habitId&&l.date===date);},
     streak(h){
       const logs=this.logs().filter(l=>l.habitId===h.id);
+      const hit=d=>{const log=logs.find(l=>l.date===d);return log&&(h.type==='check'?log.value===1:log.value>0);};
       let s=0;let d=todayStr();
-      while(true){
-        const log=logs.find(l=>l.date===d);
-        if(log&&(h.type==='check'?log.value===1:log.value>0)){s++;d=addDays(d,-1);}
-        else break;
-      }
+      if(!hit(d))d=addDays(d,-1); // 今天还没打卡不算断签，从昨天起算
+      while(hit(d)){s++;d=addDays(d,-1);}
       return s;
     }
   },
@@ -525,7 +542,7 @@ const Data = {
     weekPlan(){return Store.get('week_plan',['跑步','力量训练','休息','瑜伽','跑步','休息','休息']);},
     setWeekPlan(p){Store.set('week_plan',p);},
     calories:()=>Store.get('fitness_cal',[]),
-    addCal(c){const a=this.calories();c.id=genId();a.unshift(c);Store.set('fitness_cal',a.slice(0,60));},
+    addCal(c){const a=this.calories();c.id=genId();a.unshift(c);Store.set('fitness_cal',a);},
   },
   schedules:{
     all:()=>Store.get('schedules',[]),
@@ -628,7 +645,7 @@ const UI = {
         <hr style="border:none;border-top:1px solid var(--border-2);margin:4px 0">
         <button class="btn btn-secondary w-full" onclick="UI.clearDemo()">清空示例数据</button>
         <button class="btn w-full" style="background:var(--expense-bg);color:var(--expense-text)" onclick="UI.clearAll()">清空全部数据</button>
-        <p style="font-size:12px;color:var(--text-3);text-align:center;margin-top:8px">当前共 ${Store.totalItems()} 条数据</p>
+        <p style="font-size:12px;color:var(--text-3);text-align:center;margin-top:8px">当前共 ${Store.totalItems()} 条数据 · v2.0</p>
       </div>
     `);
     if(window._deferredInstall){const b=$('#install-btn');if(b)b.classList.remove('hidden');}
@@ -675,6 +692,7 @@ $('#confirm-cancel').addEventListener('click',()=>{
   UI._confirmCb=null;
 });
 $('#modal-overlay').addEventListener('click',e=>{if(e.target.id==='modal-overlay')UI.closeModal();});
+$('#confirm-overlay').addEventListener('click',e=>{if(e.target.id==='confirm-overlay'){$('#confirm-overlay').classList.add('hidden');UI._confirmCb=null;}});
 
 /* ===== Chart Helpers (SVG) ===== */
 const Charts = {
@@ -851,13 +869,12 @@ const Today = {
       }).length;
       score+=(done/habits.length)*35;
     }else score+=17.5;
-    // schedule 25
-    const todaySched=Data.schedules.all().filter(s=>s.date===todayStr()&&!s.done);
-    const overdue=Data.schedules.all().filter(s=>s.date<todayStr()&&!s.done);
-    const allSched=[...overdue,...todaySched];
-    if(allSched.length){
-      const total=allSched.length;
-      score+=25; // all undone = still full potential
+    // schedule 25：按已到期事项的完成率计分，逾期每个再扣 2 分
+    const schedDue=Data.schedules.all().filter(s=>s.date<=todayStr());
+    if(schedDue.length){
+      const doneN=schedDue.filter(s=>s.done).length;
+      const overdueN=schedDue.filter(s=>!s.done&&s.date<todayStr()).length;
+      score+=clamp(25*(doneN/schedDue.length)-overdueN*2,0,25);
     }else score+=25;
     // budget 20
     const budget=Data.budget.get();
@@ -893,6 +910,7 @@ const Today = {
     // Today's alerts
     const overdue=Data.schedules.all().filter(s=>s.date<todayStr()&&!s.done);
     const todaySched=Data.schedules.all().filter(s=>s.date===todayStr()&&!s.done);
+    const todayAll=Data.schedules.all().filter(s=>s.date===todayStr());
     const undoneHabits=Data.habits.all().filter(h=>{
       const log=Data.habits.getLog(h.id,todayStr());
       return !(log&&(h.type==='check'?log.value===1:log.value>0));
@@ -909,28 +927,28 @@ const Today = {
       overdue.forEach(s=>{
         items+=`<div class="alert-item overdue">
           <div class="alert-icon" style="background:var(--expense-bg);color:var(--expense)">${I.alert}</div>
-          <div class="alert-body"><p>${s.title}</p><span>逾期 · ${fmtDate(s.date)}</span></div>
+          <div class="alert-body"><p>${esc(s.title)}</p><span>逾期 · ${fmtDate(s.date)}</span></div>
           <button class="btn btn-sm btn-primary" onclick="Today.doneSched('${s.id}')">完成</button>
         </div>`;
       });
       todaySched.forEach(s=>{
         items+=`<div class="alert-item">
           <div class="alert-icon" style="background:var(--accent-bg);color:var(--accent)">${I.clock}</div>
-          <div class="alert-body"><p>${s.title}</p><span>今天 · ${s.time||''}</span></div>
+          <div class="alert-body"><p>${esc(s.title)}</p><span>今天 · ${s.time||''}</span></div>
           <button class="btn btn-sm btn-secondary" onclick="Today.doneSched('${s.id}')">完成</button>
         </div>`;
       });
       undoneHabits.slice(0,3).forEach(h=>{
         items+=`<div class="alert-item">
           <div class="alert-icon" style="background:var(--warning-bg);color:var(--warning)">${I.habit}</div>
-          <div class="alert-body"><p>${h.name}</p><span>今日未打卡</span></div>
+          <div class="alert-body"><p>${esc(h.name)}</p><span>今日未打卡</span></div>
           <button class="btn btn-sm btn-secondary" onclick="Today.doHabit('${h.id}')">打卡</button>
         </div>`;
       });
       highShop.slice(0,2).forEach(s=>{
         items+=`<div class="alert-item">
           <div class="alert-icon" style="background:var(--expense-bg);color:var(--expense)">${I.cart}</div>
-          <div class="alert-body"><p>${s.name}</p><span>高优先 · 待买</span></div>
+          <div class="alert-body"><p>${esc(s.name)}</p><span>高优先 · 待买</span></div>
           <button class="btn btn-sm btn-secondary" onclick="Today.bought('${s.id}')">已买</button>
         </div>`;
       });
@@ -979,8 +997,8 @@ const Today = {
       txPreview=`<div class="card" style="margin-top:16px">
         <div class="card-title">最近记录 <button class="btn-ghost btn-sm" onclick="UI.switchTab('finance')">全部</button></div>
         ${recentTx.map(t=>`<div class="tx-item" style="border:0;padding:8px 0">
-          <div class="tx-cat-icon" style="background:${CAT_COLORS[t.category]||'#71717A'}">${t.category[0]}</div>
-          <div class="tx-body"><p>${t.note||t.category}</p><span>${fmtDate(t.date)}</span></div>
+          <div class="tx-cat-icon" style="background:${CAT_COLORS[t.category]||'#71717A'}">${esc((t.category||'?')[0])}</div>
+          <div class="tx-body"><p>${esc(t.note||t.category)}</p><span>${fmtDate(t.date)}</span></div>
           <div class="tx-amount ${t.type}">${t.type==='income'?'+':'-'}¥${t.amount}</div>
         </div>`).join('')}
       </div>`;
@@ -1006,7 +1024,7 @@ const Today = {
         </div>
         <div class="stat-mini">
           <div class="stat-label">${I.calendar}<span>今日日程</span></div>
-          <div class="stat-value">${todaySched.length}</div>
+          <div class="stat-value">${todayAll.length-todaySched.length}/${todayAll.length}</div>
         </div>
         <div class="stat-mini">
           <div class="stat-label">${I.heart}<span>体重趋势</span></div>
@@ -1106,8 +1124,8 @@ const Finance = {
       </div>
       <div class="tx-list">
         ${txs.length?txs.map(t=>`<div class="tx-item">
-          <div class="tx-cat-icon" style="background:${CAT_COLORS[t.category]||'#71717A'}">${t.category[0]}</div>
-          <div class="tx-body"><p>${t.note||t.category}</p><span>${fmtDate(t.date)} · ${t.category}</span></div>
+          <div class="tx-cat-icon" style="background:${CAT_COLORS[t.category]||'#71717A'}">${esc((t.category||'?')[0])}</div>
+          <div class="tx-body"><p>${esc(t.note||t.category)}</p><span>${fmtDate(t.date)} · ${esc(t.category)}</span></div>
           <div class="tx-amount ${t.type}">${t.type==='income'?'+':'-'}¥${t.amount}</div>
           <button class="tx-del" onclick="Finance.delTx('${t.id}')">${I.trash}</button>
         </div>`).join(''):'<div class="empty-state">'+I.empty+'<p>本月暂无记录</p></div>'}
@@ -1177,14 +1195,11 @@ const Finance = {
     if(!txs.length){UI.toast('暂无数据可导出','warning');return;}
     const rows=['\uFEFF日期,类型,金额,分类,备注'];
     txs.sort((a,b)=>a.date<b.date?-1:1).forEach(t=>{
-      rows.push([t.date,t.type==='income'?'收入':'支出',t.amount,t.category,(t.note||'').replace(/,/g,'，')].join(','));
+      rows.push([t.date,t.type==='income'?'收入':'支出',t.amount,t.category,(t.note||'').replace(/[,\r\n]+/g,' ')].join(','));
     });
-    const blob=new Blob([rows.join('\n')],{type:'text/csv;charset=utf-8'});
-    const url=URL.createObjectURL(blob);
-    const a=document.createElement('a');
-    a.href=url;a.download=`记账_${todayStr()}.csv`;a.click();
-    URL.revokeObjectURL(url);
-    UI.toast('CSV已导出','success');
+    const r=saveFile(`记账_${todayStr()}.csv`,rows.join('\n'),'text/csv');
+    if(r==='fail'){UI.toast('导出失败，请重试','error');return;}
+    UI.toast(r==='bridge'?'CSV 已保存到 下载/生活工作台':'CSV已导出','success');
   }
 };
 
@@ -1215,7 +1230,7 @@ const Habits = {
             if(h.type==='check'){cls=lg.value===1?'l4':'';}
             else{const ratio=lg.value/(h.target||1);cls=ratio>=1?'l4':ratio>=0.66?'l3':ratio>=0.33?'l2':'l1';}
           }
-          heatCells+=`<div class="heat-cell ${cls}" title="${d}: ${lg?lg.value:0}"></div>`;
+          heatCells+=`<div class="heat-cell ${cls}" title="${d}: ${lg?lg.value:0} · 点击补卡" onclick="Habits.editDay('${h.id}','${d}')"></div>`;
         }
         // today's check
         let todayCtrl='';
@@ -1238,12 +1253,12 @@ const Habits = {
         html+=`<div class="habit-card">
           <div class="habit-header">
             <span class="habit-dot" style="background:${color}"></span>
-            <span class="habit-name">${h.name}</span>
+            <span class="habit-name">${esc(h.name)}</span>
             ${streak>0?`<span class="habit-streak">${I.fire}${streak}天</span>`:''}
             <button class="habit-del" onclick="Habits.del('${h.id}')">${I.trash}</button>
           </div>
           <div class="habit-today">${todayCtrl}</div>
-          <div style="font-size:11px;color:var(--text-3);margin-bottom:4px">最近30天</div>
+          <div style="font-size:11px;color:var(--text-3);margin-bottom:4px">最近30天 · 点格子可补卡</div>
           <div class="heatmap">${heatCells}</div>
           <div class="heatmap-labels"><span>30天前</span><span>今天</span></div>
         </div>`;
@@ -1256,7 +1271,7 @@ const Habits = {
       <div class="field"><label>习惯名称</label><input type="text" class="input" id="habit-name" placeholder="如 喝水、阅读、跑步" autofocus></div>
       <div class="field"><label>打卡方式</label>
         <div style="display:flex;gap:8px">
-          <button class="btn btn-sm flex-1" id="ht-check" style="background:var(--text);color:#fff" onclick="Habits._selType('check')">勾选</button>
+          <button class="btn btn-sm flex-1" id="ht-check" style="background:var(--accent);color:#fff" onclick="Habits._selType('check')">勾选</button>
           <button class="btn btn-sm flex-1" id="ht-count" style="background:var(--surface-2)" onclick="Habits._selType('count')">计数</button>
           <button class="btn btn-sm flex-1" id="ht-value" style="background:var(--surface-2)" onclick="Habits._selType('value')">数值</button>
         </div>
@@ -1275,7 +1290,7 @@ const Habits = {
     this._hType=type;
     ['check','count','value'].forEach(t=>{
       const el=$('#ht-'+t);
-      if(el){el.style.background=t===type?'var(--text)':'var(--surface-2)';el.style.color=t===type?'#fff':'';}
+      if(el){el.style.background=t===type?'var(--accent)':'var(--surface-2)';el.style.color=t===type?'#fff':'';}
     });
     const desc={check:'勾选：完成/未完成，如"冥想"',count:'计数：每日次数，如"喝水8杯"',value:'数值：记录数值，如"跑步3km"'}[type];
     $('#ht-desc').textContent=desc;
@@ -1310,6 +1325,24 @@ const Habits = {
   setValue(id,v){
     Data.habits.log(id,todayStr(),parseFloat(v)||0);
     App.render();
+  },
+  /* 补卡：点击热力图格子录入/修改任意一天 */
+  editDay(id,date){
+    const h=Data.habits.all().find(x=>x.id===id);
+    if(!h)return;
+    const lg=Data.habits.getLog(id,date);
+    const cur=lg?lg.value:(h.type==='check'?0:'');
+    const hint=h.type==='check'?'填 1 = 已完成，0 = 未完成':`单位：${esc(h.unit||'')} · 每日目标 ${h.target||'-'}`;
+    UI.modal(fmtDate(date)+' 补卡',`
+      <p style="font-size:13px;color:var(--text-2);margin-bottom:12px">${esc(h.name)} · ${hint}</p>
+      <div class="field"><label>记录值</label><input type="number" class="input" id="hd-value" value="${cur}" min="0" step="any" autofocus></div>
+      <button class="btn btn-primary w-full" onclick="Habits._saveDay('${id}','${date}')">保存</button>
+    `);
+  },
+  _saveDay(id,date){
+    const v=parseFloat($('#hd-value').value);
+    Data.habits.log(id,date,isNaN(v)?0:Math.max(0,v));
+    UI.closeModal();App.render();UI.toast('已补录','success');
   }
 };
 
@@ -1329,10 +1362,9 @@ const Fitness = {
     let goalPct=0;
     if(last&&last.weight&&goal.targetWeight){
       const start=records[0].weight;
-      const total=last.weight-start;
-      const target=goal.targetWeight-start;
-      if(target<0)goalPct=clamp(total/(-target)*100,0,100);
-      else goalPct=clamp(total/target*100,0,100);
+      const denom=start-goal.targetWeight;
+      // 减重/增重通用公式：(起点-当前)/(起点-目标)，符号自动匹配
+      goalPct=Math.abs(denom)<0.01?100:clamp((start-last.weight)/denom*100,0,100);
     }
     
     // Calorie deficit
@@ -1395,7 +1427,7 @@ const Fitness = {
         <div class="week-plan">
           ${plan.map((ex,i)=>`<div class="week-day ${i===todayIdx?'today':''} ${ex==='休息'?'rest':''}">
             <div class="wd-name">${dayNames[i]}</div>
-            <div class="wd-exercise">${ex}</div>
+            <div class="wd-exercise">${esc(ex)}</div>
           </div>`).join('')}
         </div>
       </div>
@@ -1460,7 +1492,7 @@ const Fitness = {
     const plan=Data.fitness.weekPlan();
     const days=['周一','周二','周三','周四','周五','周六','周日'];
     UI.modal('编辑周计划',`
-      ${days.map((d,i)=>`<div class="field"><label>${d}</label><input type="text" class="input" id="plan-${i}" value="${plan[i]||'休息'}" placeholder="如 跑步30分钟 / 休息"></div>`).join('')}
+      ${days.map((d,i)=>`<div class="field"><label>${d}</label><input type="text" class="input" id="plan-${i}" value="${esc(plan[i]||'休息')}" placeholder="如 跑步30分钟 / 休息"></div>`).join('')}
       <button class="btn btn-primary w-full" onclick="Fitness._savePlan()">保存</button>
     `);
   },
@@ -1538,7 +1570,7 @@ const Run = {
       const warn=pct>=90;
       return `<div class="card" style="margin-bottom:10px;padding:14px">
         <div class="flex-between">
-          <span style="font-weight:600;font-size:14px">${sh.name}</span>
+          <span style="font-weight:600;font-size:14px">${esc(sh.name)}</span>
           <span style="font-size:12px;color:${warn?'var(--expense)':'var(--text-2)'}">${usedKm.toFixed(0)} / ${target} km</span>
         </div>
         <div class="budget-bar" style="margin-top:8px"><div class="budget-fill ${warn?'over':''}" style="width:${pct}%"></div></div>
@@ -1615,7 +1647,7 @@ const Run = {
             <div>${r.distance.toFixed(1)}<span> km</span></div>
             <div>${r.duration}<span> 分钟</span></div>
             <div>${this._pace(r.distance,r.duration)}<span> 配速</span></div>
-            ${r.note?`<div style="flex:1;color:var(--text-2);font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${r.note}</div>`:''}
+            ${r.note?`<div style="flex:1;color:var(--text-2);font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(r.note)}</div>`:''}
           </div>
           <button class="fr-del" onclick="Run.delRun('${r.id}')">${I.trash}</button>
         </div>`).join(''):'<div class="empty-state">'+I.empty+'<p>还没有跑步记录，点右上角「记一次跑步」开始吧</p></div>'}
@@ -1639,13 +1671,13 @@ const Run = {
     UI.modal('记一次跑步',`
       <div class="field-row">
         <div class="field"><label>日期</label><input type="date" class="input" id="run-date" value="${todayStr()}"></div>
-        <div class="field"><label>距离 (km)</label><input type="number" class="input" id="run-dist" step="0.1" placeholder="5.0" autofocus></div>
+        <div class="field"><label>距离 (km)</label><input type="number" class="input" id="run-dist" step="0.1" placeholder="5.0" oninput="Run._previewPace()" autofocus></div>
       </div>
       <div class="field"><label>时长（分钟）</label><input type="number" class="input" id="run-dur" placeholder="如 30" oninput="Run._previewPace()"></div>
       <p style="font-size:12px;color:var(--text-3);margin:-4px 0 12px" id="run-pace-preview">输入距离和时长后自动计算配速</p>
       ${shoes.length?`<div class="field"><label>跑鞋</label><select class="select" id="run-shoe">
         <option value="">不关联</option>
-        ${shoes.map(s=>`<option value="${s.id}">${s.name}</option>`).join('')}
+        ${shoes.map(s=>`<option value="${s.id}">${esc(s.name)}</option>`).join('')}
       </select></div>`:''}
       <div class="field"><label>备注</label><input type="text" class="input" id="run-note" placeholder="如 晨跑 / 夜跑 / 体感"></div>
       <button class="btn btn-primary w-full" onclick="Run._saveRun()">保存</button>
@@ -1731,7 +1763,7 @@ const Schedule = {
       ${items.map(s=>`<div class="sched-item ${cls==='overdue'?'overdue':''}">
         <div class="sched-cat" style="background:${SCHED_CAT_COLORS[s.category]||'#71717A'}"></div>
         <div class="sched-check ${s.done?'done':''}" onclick="Schedule.toggle('${s.id}')">${I.check}</div>
-        <div class="sched-body"><p class="${s.done?'done':''}">${s.title}</p><span>${fmtDate(s.date)}${s.time?' · '+s.time:''} · ${s.category}</span></div>
+        <div class="sched-body"><p class="${s.done?'done':''}">${esc(s.title)}</p><span>${fmtDate(s.date)}${s.time?' · '+s.time:''} · ${s.category}</span></div>
         <button class="sched-del" onclick="Schedule.del('${s.id}')">${I.trash}</button>
       </div>`).join('')}
     </div>`;
@@ -1801,7 +1833,7 @@ const Shopping = {
           const priColor=s.priority==='high'?'var(--expense)':s.priority==='low'?'var(--text-3)':'var(--warning)';
           html+=`<div class="shop-item">
             <div class="shop-check" onclick="Shopping.toggle('${s.id}')">${I.check}</div>
-            <div class="shop-body"><p class="shop-name">${s.name}</p><span>${s.category} · ${s.priority==='high'?'高':s.priority==='low'?'低':'中'}优先${s.note?' · '+s.note:''}</span></div>
+            <div class="shop-body"><p class="shop-name">${esc(s.name)}</p><span>${s.category} · ${s.priority==='high'?'高':s.priority==='low'?'低':'中'}优先${s.note?' · '+esc(s.note):''}</span></div>
             ${s.price?`<div class="shop-price">¥${s.price}</div>`:''}
             <button class="shop-del" onclick="Shopping.del('${s.id}')">${I.trash}</button>
           </div>`;
@@ -1812,7 +1844,7 @@ const Shopping = {
         bought.forEach(s=>{
           html+=`<div class="shop-item bought">
             <div class="shop-check done" onclick="Shopping.toggle('${s.id}')">${I.check}</div>
-            <div class="shop-body"><p class="shop-name">${s.name}</p><span>${s.category}${s.price?' · ¥'+s.price:''}</span></div>
+            <div class="shop-body"><p class="shop-name">${esc(s.name)}</p><span>${s.category}${s.price?' · ¥'+s.price:''}</span></div>
             <button class="shop-del" onclick="Shopping.del('${s.id}')">${I.trash}</button>
           </div>`;
         });
@@ -1884,7 +1916,7 @@ const Media = {
     // Stats
     html+=`<div class="media-stats">
       ${this.types.map(t=>`<div class="media-stat"><div class="ms-val">${yearByType[t]}</div><div class="ms-label">${t}</div></div>`).join('')}
-      <div class="media-stat" style="grid-column:span ${4-this.types.length}">
+      <div class="media-stat">
         <div class="ms-val">${avgRating}</div><div class="ms-label">平均评分</div>
       </div>
     </div>`;
@@ -1907,7 +1939,7 @@ const Media = {
           const grad=this._gradient(m.title);
           const stars=[1,2,3,4,5].map(i=>`<svg class="${i<=m.rating?'filled':''}" viewBox="0 0 24 24">${I.star}</svg>`).join('');
           html+=`<div class="media-cover" onclick="Media.detail('${m.id}')">
-            <div class="cover-bg" style="background:${grad}"><p>${m.title}</p></div>
+            <div class="cover-bg" style="background:${grad}"><p>${esc(m.title)}</p></div>
             <span class="cover-badge">${m.type}</span>
             ${m.rating>0?`<div class="cover-stars">${stars}</div>`:''}
           </div>`;
@@ -1918,12 +1950,12 @@ const Media = {
           const grad=this._gradient(m.title);
           const stars=[1,2,3,4,5].map(i=>`<svg class="${i<=m.rating?'filled':''}" viewBox="0 0 24 24" style="width:12px;height:12px;color:var(--text-4)">${I.star}</svg>`).join('');
           html+=`<div class="media-list-item" onclick="Media.detail('${m.id}')">
-            <div class="media-list-cover" style="background:${grad}"><p>${m.title.slice(0,4)}</p></div>
+            <div class="media-list-cover" style="background:${grad}"><p>${esc(m.title.slice(0,4))}</p></div>
             <div class="media-list-body">
-              <p>${m.title}</p>
+              <p>${esc(m.title)}</p>
               <div class="ml-meta">${m.type} · ${m.status} · ${m.year||''}</div>
               <div class="media-list-stars">${stars}</div>
-              ${m.review?`<div class="ml-review">${m.review}</div>`:''}
+              ${m.review?`<div class="ml-review">${esc(m.review)}</div>`:''}
             </div>
           </div>`;
         });
@@ -1988,16 +2020,16 @@ const Media = {
     UI.modal(m.title,`
       <div style="display:flex;gap:14px;margin-bottom:16px">
         <div style="width:80px;height:108px;border-radius:8px;background:${grad};display:flex;align-items:center;justify-content:center;flex-shrink:0">
-          <p style="color:#fff;font-size:12px;font-weight:700;text-align:center;padding:8px;line-height:1.3">${m.title}</p>
+          <p style="color:#fff;font-size:12px;font-weight:700;text-align:center;padding:8px;line-height:1.3">${esc(m.title)}</p>
         </div>
         <div style="flex:1">
-          <h3 style="font-size:18px;font-weight:700;margin-bottom:4px">${m.title}</h3>
+          <h3 style="font-size:18px;font-weight:700;margin-bottom:4px">${esc(m.title)}</h3>
           <p style="font-size:13px;color:var(--text-2);margin-bottom:4px">${m.type} · ${m.status}</p>
           ${m.year?`<p style="font-size:13px;color:var(--text-3);margin-bottom:6px">${m.year}年</p>`:''}
           <div style="display:flex;gap:2px">${stars}</div>
         </div>
       </div>
-      ${m.review?`<div style="background:var(--surface-2);border-radius:8px;padding:12px;margin-bottom:12px;font-size:14px;line-height:1.6;color:var(--text-2)">${m.review}</div>`:''}
+      ${m.review?`<div style="background:var(--surface-2);border-radius:8px;padding:12px;margin-bottom:12px;font-size:14px;line-height:1.6;color:var(--text-2)">${esc(m.review)}</div>`:''}
       <p style="font-size:12px;color:var(--text-3);margin-bottom:12px">添加于 ${fmtDate(m.dateAdded)}</p>
       <div style="display:flex;gap:8px">
         <button class="btn btn-secondary flex-1" onclick="Media._editStatus('${m.id}')">改状态</button>
@@ -2037,12 +2069,9 @@ const Backup = {
     });
     data._exportDate=new Date().toISOString();
     data._version=1;
-    const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
-    const url=URL.createObjectURL(blob);
-    const a=document.createElement('a');
-    a.href=url;a.download=`生活工作台_备份_${todayStr()}.json`;a.click();
-    URL.revokeObjectURL(url);
-    UI.toast('备份已导出','success');
+    const r=saveFile(`生活工作台_备份_${todayStr()}.json`,JSON.stringify(data,null,2),'application/json');
+    if(r==='fail'){UI.toast('导出失败，请重试','error');return;}
+    UI.toast(r==='bridge'?'备份已保存到 下载/生活工作台':'备份已导出','success');
   },
   importJSON(file){
     const reader=new FileReader();
@@ -2198,7 +2227,7 @@ const App = {
   checkBackupReminder(){
     const total=Store.totalItems();
     const banner=$('#backup-banner');
-    if(total>=20){
+    if(total>=100){
       banner.classList.remove('hidden');
       banner.innerHTML=`${I.alert}<span>数据已积累 ${total} 条，建议导出备份以防丢失</span><button onclick="Backup.exportJSON()">立即备份</button>`;
     }else{

@@ -28,6 +28,55 @@
   --r-sm:8px;--r-md:12px;--r-lg:16px;--r-xl:20px;--r-full:999px;
   --shadow-sm:0 1px 2px rgba(0,0,0,.04);--shadow:0 2px 8px rgba(0,0,0,.06);--shadow-lg:0 8px 24px rgba(0,0,0,.1);
   --t-fast:.15s ease;--t:.25s cubic-bezier(.4,0,.2,1);
+  --header-bg:rgba(255,255,255,.85);--nav-bg:rgba(250,250,250,.85);
+  --toast-bg:#18181B;--toast-text:#FFFFFF;
+  --logo-a:#6366F1;--logo-b:#8B5CF6;
+}
+/* ===== 皮肤主题（配合 Theme 模块切换，data-theme 挂在 <html> 上）===== */
+[data-theme="sakura"]{
+  --bg:#FDF3F7;--surface:#FFFFFF;--surface-2:#FBE7EF;--surface-3:#F6D8E4;
+  --text:#40222F;--text-2:#8E5C72;--text-3:#BD8CA2;--text-4:#DCB7C6;
+  --border:#F2CBDC;--border-2:#F9E4ED;
+  --accent:#EC4899;--accent-bg:#FCE7F3;--accent-text:#DB2777;
+  --header-bg:rgba(253,243,247,.88);--nav-bg:rgba(253,243,247,.88);
+  --logo-a:#EC4899;--logo-b:#F472B6;
+}
+[data-theme="miku"]{
+  --bg:#EFF9F8;--surface:#FFFFFF;--surface-2:#E1F3F0;--surface-3:#D0EAE5;
+  --text:#103C38;--text-2:#3E736C;--text-3:#71A69D;--text-4:#A6CAC3;
+  --border:#C2E5DF;--border-2:#DAF1ED;
+  --accent:#39C5BB;--accent-bg:#DFF5F2;--accent-text:#0E9F95;
+  --header-bg:rgba(239,249,248,.88);--nav-bg:rgba(239,249,248,.88);
+  --logo-a:#2FB8AE;--logo-b:#53D3C9;
+}
+[data-theme="hoshizora"]{
+  --bg:#14152B;--surface:#1F2139;--surface-2:#282A48;--surface-3:#303352;
+  --text:#E9EAF6;--text-2:#A7A9CA;--text-3:#7C7FA4;--text-4:#575B84;
+  --border:#363A5E;--border-2:#2C2F4F;
+  --accent:#8B7CF6;--accent-bg:#2B2654;--accent-text:#AA9CFA;
+  --income:#34D399;--income-bg:#0F2E25;--income-text:#4ADE9E;
+  --expense:#F87171;--expense-bg:#3B1D24;--expense-text:#FC8A8A;
+  --warning:#FBBF24;--warning-bg:#38300F;--warning-text:#FACC15;
+  --header-bg:rgba(20,21,43,.88);--nav-bg:rgba(20,21,43,.88);
+  --toast-bg:#E9EAF6;--toast-text:#14152B;
+  --shadow-sm:0 1px 2px rgba(0,0,0,.3);--shadow:0 2px 8px rgba(0,0,0,.35);--shadow-lg:0 8px 24px rgba(0,0,0,.45);
+  --logo-a:#8B7CF6;--logo-b:#6366F1;
+}
+[data-theme="yuuyake"]{
+  --bg:#FFF7ED;--surface:#FFFFFF;--surface-2:#FFEDD5;--surface-3:#FED7AA;
+  --text:#431407;--text-2:#9A5B33;--text-3:#C2906C;--text-4:#DCB896;
+  --border:#FBD9B0;--border-2:#FEE8CE;
+  --accent:#F97316;--accent-bg:#FFEDD5;--accent-text:#EA580C;
+  --header-bg:rgba(255,247,237,.88);--nav-bg:rgba(255,247,237,.88);
+  --logo-a:#F97316;--logo-b:#FBBF24;
+}
+[data-theme="sora"]{
+  --bg:#F0F7FF;--surface:#FFFFFF;--surface-2:#E1EEFD;--surface-3:#CBE2F9;
+  --text:#0C2B4E;--text-2:#3E628C;--text-3:#7596BC;--text-4:#A8C1DC;
+  --border:#BFD9F2;--border-2:#DAEAFB;
+  --accent:#0EA5E9;--accent-bg:#E0F2FE;--accent-text:#0369A1;
+  --header-bg:rgba(240,247,255,.88);--nav-bg:rgba(240,247,255,.88);
+  --logo-a:#0EA5E9;--logo-b:#38BDF8;
 }
 html{font-size:var(--fs-base);-webkit-text-size-adjust:100%}
 body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:1.55;-webkit-font-smoothing:antialiased;min-height:100vh}
@@ -40,9 +89,9 @@ svg{display:block}
 .hidden{display:none!important}
 
 /* ===== Header ===== */
-.app-header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.85);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--border-2);padding:0 var(--sp-5);height:52px;display:flex;align-items:center;justify-content:space-between}
+.app-header{position:sticky;top:0;z-index:100;background:var(--header-bg);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--border-2);padding:0 var(--sp-5);height:52px;display:flex;align-items:center;justify-content:space-between}
 .app-header h1{font-size:var(--fs-lg);font-weight:700;letter-spacing:-.02em;display:flex;align-items:center;gap:8px}
-.logo-dot{width:22px;height:22px;border-radius:7px;background:linear-gradient(135deg,#6366F1,#8B5CF6);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.logo-dot{width:22px;height:22px;border-radius:7px;background:linear-gradient(135deg,var(--logo-a),var(--logo-b));display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .logo-dot svg{width:14px;height:14px;color:#fff}
 .header-actions{display:flex;gap:6px;align-items:center}
 .icon-btn{width:36px;height:36px;border-radius:var(--r-sm);display:flex;align-items:center;justify-content:center;color:var(--text-2);transition:all var(--t-fast)}
@@ -50,7 +99,7 @@ svg{display:block}
 .icon-btn svg{width:18px;height:18px}
 
 /* ===== Tab Nav ===== */
-.tab-nav{position:sticky;top:52px;z-index:99;background:rgba(250,250,250,.85);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--border-2);display:flex;gap:2px;padding:6px var(--sp-4);overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.tab-nav{position:sticky;top:52px;z-index:99;background:var(--nav-bg);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--border-2);display:flex;gap:2px;padding:6px var(--sp-4);overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;-webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 28px),transparent);mask-image:linear-gradient(90deg,#000 calc(100% - 28px),transparent)}
 .tab-nav::-webkit-scrollbar{display:none}
 .tab{flex-shrink:0;padding:8px 14px;border-radius:var(--r-full);font-size:var(--fs-sm);font-weight:500;color:var(--text-2);transition:all var(--t-fast);white-space:nowrap;display:flex;align-items:center;gap:6px}
 .tab:hover{background:var(--surface-2)}
@@ -103,7 +152,7 @@ svg{display:block}
 @media(min-width:600px){.modal-overlay{align-items:center}.modal{border-radius:var(--r-xl);animation:scaleIn .2s ease}@keyframes scaleIn{from{transform:scale(.95);opacity:0}to{transform:scale(1);opacity:1}}}
 
 /* ===== Toast ===== */
-.toast{position:fixed;bottom:calc(24px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);z-index:300;background:var(--text);color:#fff;padding:10px 20px;border-radius:var(--r-full);font-size:var(--fs-sm);font-weight:500;box-shadow:var(--shadow-lg);animation:toastIn .3s ease;display:flex;align-items:center;gap:8px;max-width:90vw}
+.toast{position:fixed;bottom:calc(24px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);z-index:300;background:var(--toast-bg);color:var(--toast-text);padding:10px 20px;border-radius:var(--r-full);font-size:var(--fs-sm);font-weight:500;box-shadow:var(--shadow-lg);animation:toastIn .3s ease;display:flex;align-items:center;gap:8px;max-width:90vw}
 .toast.error{background:var(--expense)}
 .toast.success{background:var(--income)}
 .toast.warning{background:var(--warning)}
@@ -177,7 +226,8 @@ svg{display:block}
 .chart-wrap svg{width:100%;height:auto;display:block}
 
 .tx-list{background:var(--surface);border-radius:var(--r-lg);box-shadow:var(--shadow-sm);border:1px solid var(--border-2);overflow:hidden}
-.tx-item{display:flex;align-items:center;gap:12px;padding:12px 14px;border-bottom:1px solid var(--border-2)}
+.tx-item{display:flex;align-items:center;gap:12px;padding:12px 14px;border-bottom:1px solid var(--border-2);cursor:pointer;transition:background var(--t-fast)}
+.tx-item:active{background:var(--surface-2)}
 .tx-item:last-child{border-bottom:none}
 .tx-cat-icon{width:36px;height:36px;border-radius:var(--r-sm);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:var(--fs-xs);font-weight:700;color:#fff}
 .tx-body{flex:1;min-width:0}
@@ -200,6 +250,8 @@ svg{display:block}
 .habit-streak svg{width:12px;height:12px}
 .habit-del{width:28px;height:28px;border-radius:var(--r-sm);display:flex;align-items:center;justify-content:center;color:var(--text-4)}
 .habit-del:hover{background:var(--expense-bg);color:var(--expense)}
+.habit-edit{width:28px;height:28px;border-radius:var(--r-sm);display:flex;align-items:center;justify-content:center;color:var(--text-4)}
+.habit-edit:hover{background:var(--accent-bg);color:var(--accent-text)}
 .habit-today{display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--surface-2);border-radius:var(--r-md);margin-bottom:var(--sp-3)}
 .habit-check{width:24px;height:24px;border-radius:var(--r-sm);border:2px solid var(--text-3);display:flex;align-items:center;justify-content:center;transition:all var(--t);flex-shrink:0;cursor:pointer}
 .habit-check.done{border-color:var(--accent);background:var(--accent)}
@@ -268,8 +320,10 @@ svg{display:block}
 .sched-body span{font-size:var(--fs-xs);color:var(--text-3)}
 .sched-cat{width:4px;height:24px;border-radius:2px;flex-shrink:0}
 .sched-del{width:28px;height:28px;border-radius:var(--r-sm);display:flex;align-items:center;justify-content:center;color:var(--text-4);opacity:0}
-.sched-item:hover .sched-del{opacity:1}
-@media(max-width:600px){.sched-del{opacity:.4}}
+.sched-edit{width:28px;height:28px;border-radius:var(--r-sm);display:flex;align-items:center;justify-content:center;color:var(--text-4);opacity:0}
+.sched-item:hover .sched-del,.sched-item:hover .sched-edit{opacity:1}
+@media(max-width:600px){.sched-del,.sched-edit{opacity:.4}}
+.sched-body{cursor:pointer}
 
 /* ===== Shopping Module ===== */
 .shop-stats{display:flex;gap:var(--sp-3);margin-bottom:var(--sp-4)}
@@ -351,6 +405,7 @@ svg{display:block}
 .w-full{width:100%}
 .flex-1{flex:1}
 .text-center{text-align:center}
+.tx-amount,.fin-value,.stat-value,.fm-value,.ms-val,.ss-val,.habit-count-val,.ring-score{font-variant-numeric:tabular-nums}
 </style>
 </head>
 <body>
@@ -362,6 +417,7 @@ svg{display:block}
     <button class="icon-btn" onclick="Backup.exportJSON()" title="导出备份"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></button>
     <button class="icon-btn" onclick="document.getElementById('import-file').click()" title="导入恢复"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></button>
     <input type="file" id="import-file" accept=".json" class="hidden">
+    <button class="icon-btn" onclick="Theme.picker()" title="皮肤"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.93 0 1.65-.75 1.65-1.69 0-.44-.18-.84-.44-1.13-.29-.29-.44-.65-.44-1.12a1.64 1.64 0 0 1 1.67-1.67h2c3.05 0 5.55-2.5 5.55-5.55C21.97 6.01 17.46 2 12 2z"/><circle cx="13.5" cy="6.5" r="1" fill="currentColor"/><circle cx="17.5" cy="10.5" r="1" fill="currentColor"/><circle cx="8.5" cy="7.5" r="1" fill="currentColor"/><circle cx="6.5" cy="12.5" r="1" fill="currentColor"/></svg></button>
     <button class="icon-btn" onclick="UI.openMoreMenu()" title="更多"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg></button>
   </div>
 </header>
@@ -425,6 +481,7 @@ svg{display:block}
 const $ = (s, p=document) => p.querySelector(s);
 const $$ = (s, p=document) => [...p.querySelectorAll(s)];
 const PREFIX = 'wb_life_';
+const APP_VERSION = '2.1.0';
 const genId = () => Date.now().toString(36) + Math.random().toString(36).slice(2,7);
 const _pad = n => String(n).padStart(2,'0');
 const todayStr = () => {const d=new Date();return d.getFullYear()+'-'+_pad(d.getMonth()+1)+'-'+_pad(d.getDate());};
@@ -456,6 +513,12 @@ function saveFile(name,content,mime){
     return 'browser';
   }catch(e){UI.toast('导出失败：'+e.message,'error');return 'fail';}
 }
+
+/* 触感反馈（APP 内需 VIBRATE 权限，浏览器环境静默跳过） */
+function buzz(p){try{if(navigator.vibrate)navigator.vibrate(p);}catch(e){}}
+/* 打卡鼓励语 */
+const CHEERS=['打卡成功，继续保持！','又近一步，真不错','坚持的你最闪亮','今日进度 +1','好习惯都是一天攒出来的','这波操作满分！'];
+const cheer=()=>CHEERS[Math.floor(Math.random()*CHEERS.length)];
 
 /* ===== Storage Layer ===== */
 const Store = {
@@ -503,6 +566,7 @@ const Data = {
   transactions:{
     all:()=>Store.get('transactions',[]),
     add(t){const a=this.all();t.id=genId();a.unshift(t);Store.set('transactions',a);return t;},
+    update(id,patch){const a=this.all();const i=a.findIndex(t=>t.id===id);if(i>=0){a[i]={...a[i],...patch};Store.set('transactions',a);}},
     del(id){Store.set('transactions',this.all().filter(t=>t.id!==id));},
     monthExpense(m){return this.all().filter(t=>t.type==='expense'&&monthStr(t.date)===m).reduce((s,t)=>s+t.amount,0);},
     monthIncome(m){return this.all().filter(t=>t.type==='income'&&monthStr(t.date)===m).reduce((s,t)=>s+t.amount,0);},
@@ -514,6 +578,7 @@ const Data = {
   habits:{
     all:()=>Store.get('habits',[]),
     add(h){const a=this.all();h.id=genId();h.createdAt=todayStr();a.push(h);Store.set('habits',a);return h;},
+    update(id,patch){const a=this.all();const i=a.findIndex(h=>h.id===id);if(i>=0){a[i]={...a[i],...patch};Store.set('habits',a);}},
     del(id){Store.set('habits',this.all().filter(h=>h.id!==id));Store.set('habit_logs',this.logs().filter(l=>l.habitId!==id));},
     logs:()=>Store.get('habit_logs',[]),
     log(habitId,date,value){
@@ -591,7 +656,8 @@ const I = {
   trash:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>',
   chevron:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>',
   download:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>',
-  star:'<svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>',
+  star:'<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>',
+  edit:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.83 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>',
   trendDown:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 18 13.5 8.5 8.5 13.5 1 6"/><polyline points="17 18 23 18 23 12"/></svg>',
   trendUp:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>',
   scale:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 16l3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1z"/><path d="M2 16l3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1z"/><path d="M7 21h10"/><path d="M12 3v18"/><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/></svg>',
@@ -645,7 +711,7 @@ const UI = {
         <hr style="border:none;border-top:1px solid var(--border-2);margin:4px 0">
         <button class="btn btn-secondary w-full" onclick="UI.clearDemo()">清空示例数据</button>
         <button class="btn w-full" style="background:var(--expense-bg);color:var(--expense-text)" onclick="UI.clearAll()">清空全部数据</button>
-        <p style="font-size:12px;color:var(--text-3);text-align:center;margin-top:8px">当前共 ${Store.totalItems()} 条数据 · v2.0</p>
+        <p style="font-size:12px;color:var(--text-3);text-align:center;margin-top:8px">当前共 ${Store.totalItems()} 条数据 · v${APP_VERSION}</p>
       </div>
     `);
     if(window._deferredInstall){const b=$('#install-btn');if(b)b.classList.remove('hidden');}
@@ -1034,13 +1100,13 @@ const Today = {
       ${txPreview}
     `;
   },
-  doneSched(id){Data.schedules.update(id,{done:true});App.render();UI.toast('已完成','success');},
+  doneSched(id){Data.schedules.update(id,{done:true});buzz(20);App.render();UI.toast('已完成','success');},
   doHabit(id){
     const h=Data.habits.all().find(x=>x.id===id);
     if(!h)return;
     if(h.type==='check'){Data.habits.log(id,todayStr(),1);}
     else{Data.habits.log(id,todayStr(),h.target||1);}
-    App.render();UI.toast('打卡成功','success');
+    buzz(30);App.render();UI.toast(cheer(),'success');
   },
   bought(id){Data.shopping.update(id,{bought:true});App.render();UI.toast('已标记购买','success');}
 };
@@ -1076,8 +1142,8 @@ const Finance = {
     // Monthly comparison (last 4 months)
     const barData=[];
     for(let i=3;i>=0;i--){
-      const d=new Date();d.setMonth(d.getMonth()-i);
-      const ms=d.toISOString().slice(0,7);
+      const d=new Date();d.setDate(1);d.setMonth(d.getMonth()-i);
+      const ms=d.getFullYear()+'-'+_pad(d.getMonth()+1);
       barData.push({label:ms.slice(5)+'月',income:Data.transactions.monthIncome(ms),expense:Data.transactions.monthExpense(ms)});
     }
     
@@ -1123,19 +1189,20 @@ const Finance = {
         </select>
       </div>
       <div class="tx-list">
-        ${txs.length?txs.map(t=>`<div class="tx-item">
+        ${txs.length?txs.map(t=>`<div class="tx-item" onclick="Finance.editTx('${t.id}')">
           <div class="tx-cat-icon" style="background:${CAT_COLORS[t.category]||'#71717A'}">${esc((t.category||'?')[0])}</div>
           <div class="tx-body"><p>${esc(t.note||t.category)}</p><span>${fmtDate(t.date)} · ${esc(t.category)}</span></div>
           <div class="tx-amount ${t.type}">${t.type==='income'?'+':'-'}¥${t.amount}</div>
-          <button class="tx-del" onclick="Finance.delTx('${t.id}')">${I.trash}</button>
-        </div>`).join(''):'<div class="empty-state">'+I.empty+'<p>本月暂无记录</p></div>'}
+          <button class="tx-del" onclick="event.stopPropagation();Finance.delTx('${t.id}')">${I.trash}</button>
+        </div>`).join(''):'<div class="empty-state">'+I.empty+'<p>本月暂无记录 · 点上方「记一笔」开始</p></div>'}
       </div>
     `;
   },
   setFilter(k,v){this.filter[k]=v;if(k==='type')this.filter.category='all';this.render();},
-  addTx(){
-    const cats=this.categories;
-    UI.modal('记一笔',`
+  addTx(id){
+    const tx=id?Data.transactions.all().find(t=>t.id===id):null;
+    this._editId=id||null;
+    UI.modal(tx?'编辑记录':'记一笔',`
       <div class="field">
         <label>类型</label>
         <div style="display:flex;gap:8px">
@@ -1143,14 +1210,22 @@ const Finance = {
           <button class="btn btn-sm flex-1" id="tx-type-income" style="background:var(--surface-2)" onclick="Finance._selType('income')">收入</button>
         </div>
       </div>
-      <div class="field"><label>金额</label><input type="number" class="input" id="tx-amount" placeholder="0.00" step="0.01" autofocus></div>
+      <div class="field"><label>金额</label><input type="number" class="input" id="tx-amount" placeholder="0.00" step="0.01" ${tx?'':'autofocus'}></div>
       <div class="field"><label>分类</label><div id="tx-cat-list" style="display:flex;flex-wrap:wrap;gap:6px"></div></div>
       <div class="field"><label>日期</label><input type="date" class="input" id="tx-date" value="${todayStr()}"></div>
       <div class="field"><label>备注</label><input type="text" class="input" id="tx-note" placeholder="可选"></div>
-      <button class="btn btn-primary w-full" onclick="Finance._saveTx()">保存</button>
+      <button class="btn btn-primary w-full" onclick="Finance._saveTx()">${tx?'保存修改':'保存'}</button>
     `);
-    this._selType('expense');
+    this._selType(tx?tx.type:'expense');
+    if(tx){
+      $('#tx-amount').value=tx.amount;
+      $('#tx-date').value=tx.date;
+      $('#tx-note').value=tx.note||'';
+      this._txCat=tx.category;
+      $$('#tx-cat-list .filter-chip').forEach(c=>c.classList.toggle('active',c.textContent===tx.category));
+    }
   },
+  editTx(id){this.addTx(id);},
   _selType(type){
     this._txType=type;
     $('#tx-type-expense').style.background=type==='expense'?'var(--expense)':'var(--surface-2)';
@@ -1169,10 +1244,15 @@ const Finance = {
   _saveTx(){
     const amount=parseFloat($('#tx-amount').value);
     if(!amount||amount<=0){UI.toast('请输入有效金额','error');return;}
-    Data.transactions.add({type:this._txType,amount:Math.round(amount*100)/100,category:this._txCat,date:$('#tx-date').value,note:$('#tx-note').value.trim()});
-    UI.closeModal();
-    App.render();
-    UI.toast('已保存','success');
+    const payload={type:this._txType,amount:Math.round(amount*100)/100,category:this._txCat,date:$('#tx-date').value,note:$('#tx-note').value.trim()};
+    if(this._editId){
+      Data.transactions.update(this._editId,payload);
+      this._editId=null;
+      UI.closeModal();App.render();UI.toast('已更新','success');
+    }else{
+      Data.transactions.add(payload);
+      UI.closeModal();App.render();UI.toast('已保存','success');
+    }
   },
   delTx(id){
     UI.confirm('删除这条记录？',()=>{Data.transactions.del(id);App.render();UI.toast('已删除','success');});
@@ -1255,6 +1335,7 @@ const Habits = {
             <span class="habit-dot" style="background:${color}"></span>
             <span class="habit-name">${esc(h.name)}</span>
             ${streak>0?`<span class="habit-streak">${I.fire}${streak}天</span>`:''}
+            <button class="habit-edit" onclick="Habits.edit('${h.id}')" title="编辑习惯">${I.edit}</button>
             <button class="habit-del" onclick="Habits.del('${h.id}')">${I.trash}</button>
           </div>
           <div class="habit-today">${todayCtrl}</div>
@@ -1309,9 +1390,35 @@ const Habits = {
   del(id){
     UI.confirm('删除此习惯及其打卡记录？',()=>{Data.habits.del(id);App.render();UI.toast('已删除','success');});
   },
+  edit(id){
+    const h=Data.habits.all().find(x=>x.id===id);
+    if(!h)return;
+    UI.modal('编辑习惯',`
+      <div class="field"><label>习惯名称</label><input type="text" class="input" id="he-name" value="${esc(h.name)}" autofocus></div>
+      ${h.type!=='check'?`<div class="field-row">
+        <div class="field"><label>每日目标</label><input type="number" class="input" id="he-target" value="${h.target||1}" min="1"></div>
+        <div class="field"><label>单位</label><input type="text" class="input" id="he-unit" value="${esc(h.unit||'')}"></div>
+      </div>`:''}
+      <button class="btn btn-primary w-full" onclick="Habits._saveEdit('${id}')">保存修改</button>
+    `);
+  },
+  _saveEdit(id){
+    const name=$('#he-name').value.trim();
+    if(!name){UI.toast('请输入习惯名称','error');return;}
+    const h=Data.habits.all().find(x=>x.id===id);
+    const patch={name};
+    if(h&&h.type!=='check'){
+      patch.target=parseFloat($('#he-target').value)||1;
+      patch.unit=$('#he-unit').value.trim();
+    }
+    Data.habits.update(id,patch);
+    UI.closeModal();App.render();UI.toast('已更新','success');
+  },
   toggleCheck(id){
     const log=Data.habits.getLog(id,todayStr());
-    Data.habits.log(id,todayStr(),log&&log.value===1?0:1);
+    const nowDone=!(log&&log.value===1);
+    Data.habits.log(id,todayStr(),nowDone?1:0);
+    if(nowDone){buzz(30);UI.toast(cheer(),'success');}
     App.render();
   },
   count(id,delta){
@@ -1320,6 +1427,8 @@ const Habits = {
     let val=(log?log.value:0)+delta;
     if(val<0)val=0;
     Data.habits.log(id,todayStr(),val);
+    if(delta>0&&h&&h.target&&val===h.target){buzz([20,40,20]);UI.toast('今日目标达成 🎉','success');}
+    else if(delta>0)buzz(15);
     App.render();
   },
   setValue(id,v){
@@ -1763,14 +1872,17 @@ const Schedule = {
       ${items.map(s=>`<div class="sched-item ${cls==='overdue'?'overdue':''}">
         <div class="sched-cat" style="background:${SCHED_CAT_COLORS[s.category]||'#71717A'}"></div>
         <div class="sched-check ${s.done?'done':''}" onclick="Schedule.toggle('${s.id}')">${I.check}</div>
-        <div class="sched-body"><p class="${s.done?'done':''}">${esc(s.title)}</p><span>${fmtDate(s.date)}${s.time?' · '+s.time:''} · ${s.category}</span></div>
+        <div class="sched-body" onclick="Schedule.add('${s.id}')" title="点击编辑"><p class="${s.done?'done':''}">${esc(s.title)}</p><span>${fmtDate(s.date)}${s.time?' · '+s.time:''} · ${s.category}</span></div>
+        <button class="sched-edit" onclick="Schedule.add('${s.id}')">${I.edit}</button>
         <button class="sched-del" onclick="Schedule.del('${s.id}')">${I.trash}</button>
       </div>`).join('')}
     </div>`;
   },
-  add(){
-    UI.modal('添加日程',`
-      <div class="field"><label>标题</label><input type="text" class="input" id="sc-title" placeholder="如 开会、体检、朋友聚餐" autofocus></div>
+  add(id){
+    const s=id?Data.schedules.all().find(x=>x.id===id):null;
+    this._editId=id||null;
+    UI.modal(s?'编辑日程':'添加日程',`
+      <div class="field"><label>标题</label><input type="text" class="input" id="sc-title" placeholder="如 开会、体检、朋友聚餐" ${s?'':'autofocus'}></div>
       <div class="field-row">
         <div class="field"><label>日期</label><input type="date" class="input" id="sc-date" value="${todayStr()}"></div>
         <div class="field"><label>时间</label><input type="time" class="input" id="sc-time"></div>
@@ -1778,20 +1890,38 @@ const Schedule = {
       <div class="field"><label>分类</label><div style="display:flex;flex-wrap:wrap;gap:6px" id="sc-cat-list">
         ${this.cats.map((c,i)=>`<button class="filter-chip ${i===0?'active':''}" onclick="Schedule._selCat('${c}',this)">${c}</button>`).join('')}
       </div></div>
-      <button class="btn btn-primary w-full" onclick="Schedule._save()">添加</button>
+      <button class="btn btn-primary w-full" onclick="Schedule._save()">${s?'保存修改':'添加'}</button>
     `);
-    this._scCat=this.cats[0];
+    if(s){
+      $('#sc-title').value=s.title;
+      $('#sc-date').value=s.date;
+      $('#sc-time').value=s.time||'';
+      this._scCat=s.category;
+      $$('#sc-cat-list .filter-chip').forEach(c=>c.classList.toggle('active',c.textContent===s.category));
+    }else{
+      this._scCat=this.cats[0];
+    }
   },
   _selCat(cat,el){this._scCat=cat;$$('#sc-cat-list .filter-chip').forEach(c=>c.classList.remove('active'));el.classList.add('active');},
   _save(){
     const title=$('#sc-title').value.trim();
     if(!title){UI.toast('请输入标题','error');return;}
-    Data.schedules.add({title,date:$('#sc-date').value,time:$('#sc-time').value,category:this._scCat,done:false});
-    UI.closeModal();App.render();UI.toast('已添加','success');
+    const payload={title,date:$('#sc-date').value,time:$('#sc-time').value,category:this._scCat};
+    if(this._editId){
+      Data.schedules.update(this._editId,payload);
+      this._editId=null;
+      UI.closeModal();App.render();UI.toast('已更新','success');
+    }else{
+      Data.schedules.add({...payload,done:false});
+      UI.closeModal();App.render();UI.toast('已添加','success');
+    }
   },
   toggle(id){
     const s=Data.schedules.all().find(x=>x.id===id);
-    if(s)Data.schedules.update(id,{done:!s.done});
+    if(s){
+      Data.schedules.update(id,{done:!s.done});
+      if(!s.done)buzz(20);
+    }
     App.render();
   },
   del(id){
@@ -1883,8 +2013,20 @@ const Shopping = {
   },
   toggle(id){
     const s=Data.shopping.all().find(x=>x.id===id);
-    if(s)Data.shopping.update(id,{bought:!s.bought});
+    if(!s)return;
+    const nowBought=!s.bought;
+    Data.shopping.update(id,{bought:nowBought});
     App.render();
+    if(nowBought){
+      buzz(20);
+      if(s.price>0){
+        const catMap={'食品':'餐饮','日用':'其他','电子':'购物','服饰':'购物','图书':'教育','其他':'其他'};
+        UI.confirm(`已买下「${s.name}」¥${s.price}，要顺手把这笔支出记入账本吗？`,()=>{
+          Data.transactions.add({type:'expense',amount:s.price,category:catMap[s.category]||'购物',date:todayStr(),note:s.name});
+          App.render();UI.toast('已记入账本','success');
+        },'记入账本');
+      }
+    }
   },
   del(id){
     UI.confirm('删除这个物品？',()=>{Data.shopping.del(id);App.render();UI.toast('已删除','success');});
@@ -1917,7 +2059,7 @@ const Media = {
     html+=`<div class="media-stats">
       ${this.types.map(t=>`<div class="media-stat"><div class="ms-val">${yearByType[t]}</div><div class="ms-label">${t}</div></div>`).join('')}
       <div class="media-stat">
-        <div class="ms-val">${avgRating}</div><div class="ms-label">平均评分</div>
+        <div class="ms-val">${avgRating}</div><div class="ms-label">今年均分</div>
       </div>
     </div>`;
     
@@ -1937,7 +2079,7 @@ const Media = {
         html+='<div class="media-wall">';
         filtered.forEach(m=>{
           const grad=this._gradient(m.title);
-          const stars=[1,2,3,4,5].map(i=>`<svg class="${i<=m.rating?'filled':''}" viewBox="0 0 24 24">${I.star}</svg>`).join('');
+          const stars=[1,2,3,4,5].map(i=>`<svg class="${i<=m.rating?'filled':''}" viewBox="0 0 24 24" fill="currentColor">${I.star}</svg>`).join('');
           html+=`<div class="media-cover" onclick="Media.detail('${m.id}')">
             <div class="cover-bg" style="background:${grad}"><p>${esc(m.title)}</p></div>
             <span class="cover-badge">${m.type}</span>
@@ -1948,7 +2090,7 @@ const Media = {
       }else{
         filtered.forEach(m=>{
           const grad=this._gradient(m.title);
-          const stars=[1,2,3,4,5].map(i=>`<svg class="${i<=m.rating?'filled':''}" viewBox="0 0 24 24" style="width:12px;height:12px;color:var(--text-4)">${I.star}</svg>`).join('');
+          const stars=[1,2,3,4,5].map(i=>`<svg class="${i<=m.rating?'filled':''}" viewBox="0 0 24 24" fill="currentColor">${I.star}</svg>`).join('');
           html+=`<div class="media-list-item" onclick="Media.detail('${m.id}')">
             <div class="media-list-cover" style="background:${grad}"><p>${esc(m.title.slice(0,4))}</p></div>
             <div class="media-list-body">
@@ -1982,7 +2124,7 @@ const Media = {
       <div class="field-row">
         <div class="field"><label>年份</label><input type="number" class="input" id="md-year" placeholder="如 2024"></div>
         <div class="field"><label>评分</label>
-          <div class="star-input" id="md-stars">${[1,2,3,4,5].map(i=>`<svg data-val="${i}" viewBox="0 0 24 24">${I.star}</svg>`).join('')}</div>
+          <div class="star-input" id="md-stars">${[1,2,3,4,5].map(i=>`<svg data-val="${i}" viewBox="0 0 24 24" fill="currentColor">${I.star}</svg>`).join('')}</div>
         </div>
       </div>
       <div class="field"><label>短评</label><textarea class="textarea" id="md-review" placeholder="记录你的感受..."></textarea></div>
@@ -2016,7 +2158,7 @@ const Media = {
     const m=Data.media.all().find(x=>x.id===id);
     if(!m)return;
     const grad=this._gradient(m.title);
-    const stars=[1,2,3,4,5].map(i=>`<svg class="${i<=m.rating?'filled':''}" viewBox="0 0 24 24" style="width:20px;height:20px;color:var(--text-4)">${I.star}</svg>`).join('');
+    const stars=[1,2,3,4,5].map(i=>`<svg class="${i<=m.rating?'filled':''}" viewBox="0 0 24 24" fill="currentColor">${I.star}</svg>`).join('');
     UI.modal(m.title,`
       <div style="display:flex;gap:14px;margin-bottom:16px">
         <div style="width:80px;height:108px;border-radius:8px;background:${grad};display:flex;align-items:center;justify-content:center;flex-shrink:0">
@@ -2026,7 +2168,7 @@ const Media = {
           <h3 style="font-size:18px;font-weight:700;margin-bottom:4px">${esc(m.title)}</h3>
           <p style="font-size:13px;color:var(--text-2);margin-bottom:4px">${m.type} · ${m.status}</p>
           ${m.year?`<p style="font-size:13px;color:var(--text-3);margin-bottom:6px">${m.year}年</p>`:''}
-          <div style="display:flex;gap:2px">${stars}</div>
+          <div class="star-input" style="pointer-events:none">${stars}</div>
         </div>
       </div>
       ${m.review?`<div style="background:var(--surface-2);border-radius:8px;padding:12px;margin-bottom:12px;font-size:14px;line-height:1.6;color:var(--text-2)">${esc(m.review)}</div>`:''}
@@ -2063,7 +2205,7 @@ const Media = {
 const Backup = {
   exportJSON(){
     const data={};
-    ['transactions','habits','habit_logs','fitness','fitness_cal','schedules','shopping','media','runs','shoes','budget','fitness_goal','week_plan','demo_loaded'].forEach(k=>{
+    ['transactions','habits','habit_logs','fitness','fitness_cal','schedules','shopping','media','runs','shoes','budget','fitness_goal','week_plan','demo_loaded','theme'].forEach(k=>{
       const raw=localStorage.getItem(PREFIX+k);
       if(raw)data[k]=JSON.parse(raw);
     });
@@ -2080,7 +2222,7 @@ const Backup = {
         const data=JSON.parse(e.target.result);
         if(typeof data!=='object'||data===null)throw new Error('格式错误');
         let count=0;
-        ['transactions','habits','habit_logs','fitness','fitness_cal','schedules','shopping','media','runs','shoes','budget','fitness_goal','week_plan'].forEach(k=>{
+        ['transactions','habits','habit_logs','fitness','fitness_cal','schedules','shopping','media','runs','shoes','budget','fitness_goal','week_plan','theme'].forEach(k=>{
           if(data[k]!==undefined){
             try{
               localStorage.setItem(PREFIX+k,JSON.stringify(data[k]));
@@ -2188,9 +2330,49 @@ const Demo = {
   }
 };
 
+/* ===== Theme 皮肤系统 ===== */
+const Theme = {
+  list:[
+    {id:'default',name:'简约 · 默认',desc:'干净克制的气质紫',colors:['#FAFAFA','#6366F1','#18181B'],bar:'#FAFAFA',light:true},
+    {id:'sakura',name:'樱色 · Sakura 🌸',desc:'樱花纷飞的春日粉',colors:['#FDF3F7','#EC4899','#40222F'],bar:'#FDF3F7',light:true},
+    {id:'miku',name:'葱绿 · Miku 🎵',desc:'初音未来的应援色',colors:['#EFF9F8','#39C5BB','#103C38'],bar:'#EFF9F8',light:true},
+    {id:'sora',name:'苍空 · Sora ☁️',desc:'高空云层的清透蓝',colors:['#F0F7FF','#0EA5E9','#0C2B4E'],bar:'#F0F7FF',light:true},
+    {id:'yuuyake',name:'夕阳 · Yuuyake 🌇',desc:'放学后暖橘色的天空',colors:['#FFF7ED','#F97316','#431407'],bar:'#FFF7ED',light:true},
+    {id:'hoshizora',name:'星空 · 暗夜 🌌',desc:'深色护眼，熬夜搭档',colors:['#14152B','#8B7CF6','#E9EAF6'],bar:'#14152B',light:false},
+  ],
+  current(){return Store.get('theme','default');},
+  apply(id){
+    const t=this.list.find(x=>x.id===id)||this.list[0];
+    if(t.id==='default')delete document.documentElement.dataset.theme;
+    else document.documentElement.dataset.theme=t.id;
+    const meta=document.querySelector('meta[name="theme-color"]');
+    if(meta)meta.content=t.bar;
+    if(window.AndroidBridge&&typeof window.AndroidBridge.setStatusBar==='function'){
+      try{window.AndroidBridge.setStatusBar(t.bar,t.light);}catch(e){}
+    }
+  },
+  set(id){Store.set('theme',id);this.apply(id);UI.closeModal();App.render();UI.toast('皮肤已更换 ✦','success');},
+  picker(){
+    const cur=this.current();
+    UI.modal('更换皮肤',`<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      ${this.list.map(t=>`
+      <button onclick="Theme.set('${t.id}')" style="text-align:left;background:var(--surface);border:2px solid ${cur===t.id?'var(--accent)':'var(--border-2)'};border-radius:var(--r-md);padding:12px">
+        <div style="display:flex;gap:6px;margin-bottom:8px">${t.colors.map(c=>`<span style="width:18px;height:18px;border-radius:50%;background:${c};border:1px solid rgba(0,0,0,.08)"></span>`).join('')}</div>
+        <div style="font-size:14px;font-weight:600;color:var(--text)">${t.name}</div>
+        <div style="font-size:11px;color:var(--text-3);margin-top:2px">${t.desc}</div>
+        ${cur===t.id?'<div style="font-size:10px;color:var(--accent-text);font-weight:600;margin-top:4px">使用中</div>':''}
+      </button>`).join('')}
+    </div>
+    <p style="font-size:11px;color:var(--text-3);text-align:center;margin-top:12px">共 ${this.list.length} 款皮肤 · 即时生效并自动保存 · 「星空 · 暗夜」即深色模式</p>`);
+  }
+};
+
 /* ===== App ===== */
 const App = {
   init(){
+    // Restore saved skin theme
+    Theme.apply(Theme.current());
+    
     // Migrate old data, then load demo data on first visit
     Demo.migrate();
     Demo.load();

@@ -131,6 +131,28 @@ public class MainActivity extends Activity {
                 return false;
             }
         }
+
+        /** JS 桥：皮肤切换时同步状态栏颜色与图标深浅（hex 形如 "#14152B"） */
+        @JavascriptInterface
+        public void setStatusBar(final String hex, final boolean light) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        int color = (int) Long.parseLong(hex.replace("#", ""), 16) | 0xFF000000;
+                        getWindow().setStatusBarColor(color);
+                        int flags = getWindow().getDecorView().getSystemUiVisibility();
+                        if (light) {
+                            flags |= View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+                        } else {
+                            flags &= ~View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+                        }
+                        getWindow().getDecorView().setSystemUiVisibility(flags);
+                    } catch (Exception ignored) {
+                    }
+                }
+            });
+        }
     }
 
     @Override

@@ -100,7 +100,7 @@ public class MainActivity extends Activity {
         }
     }
 
-    /** JS 桥：把 base64 内容写入 下载/生活工作台/ 目录，返回是否成功 */
+    /** JS 桥：把 base64 内容写入 下载/CaseOrCake/ 目录，返回是否成功 */
     public class Bridge {
         @JavascriptInterface
         public boolean saveFile(String base64, String name, String mime) {
@@ -111,7 +111,7 @@ public class MainActivity extends Activity {
                     ContentValues v = new ContentValues();
                     v.put(MediaStore.Downloads.DISPLAY_NAME, name);
                     v.put(MediaStore.Downloads.MIME_TYPE, mime);
-                    v.put(MediaStore.Downloads.RELATIVE_PATH, Environment.DIRECTORY_DOWNLOADS + "/生活工作台");
+                    v.put(MediaStore.Downloads.RELATIVE_PATH, Environment.DIRECTORY_DOWNLOADS + "/CaseOrCake");
                     Uri uri = getContentResolver().insert(MediaStore.Downloads.EXTERNAL_CONTENT_URI, v);
                     if (uri == null) return false;
                     OutputStream os = getContentResolver().openOutputStream(uri);
@@ -119,7 +119,7 @@ public class MainActivity extends Activity {
                     os.write(bytes);
                     os.close();
                 } else {
-                    File dir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "生活工作台");
+                    File dir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "CaseOrCake");
                     if (!dir.exists()) dir.mkdirs();
                     File f = new File(dir, name);
                     FileOutputStream fos = new FileOutputStream(f);

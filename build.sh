@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 # ============================================
-# 生活工作台 · 一键构建脚本
+# CaseOrCake · 一键构建脚本
 # 用法: bash build.sh
-# 产物: releases/LifeWorkbench_v<versionName>.apk
+# 产物: releases/CaseOrCake_v<versionName>.apk
 #   （版本号自动读取 app/AndroidManifest.xml 的 versionName）
 # 依赖: C:\wb-tools（JDK17 + Android SDK）与 keystore/（签名密钥）
 # ============================================
@@ -62,7 +62,7 @@ echo "[5/7] dex 已注入"
 echo "[6/7] zipalign 完成"
 
 # 7. 签名（同一 keystore → 覆盖安装数据保留）
-"$JAVA" -cp "C:\\wb-build\\lib\\apksigner.jar" com.android.apksigner.ApkSignerTool sign --ks "$WS\\keystore\\wb.keystore" --ks-pass pass:$KS_PASS --key-pass pass:$KS_PASS --out "C:\\wb-build\\out\\LifeWorkbench_v$VER.apk" "C:\\wb-build\\out\\app-unsigned.apk"
-"$JAVA" -cp "C:\\wb-build\\lib\\apksigner.jar" com.android.apksigner.ApkSignerTool verify "C:\\wb-build\\out\\LifeWorkbench_v$VER.apk"
-cp "$B/out/LifeWorkbench_v$VER.apk" "$WS/releases/LifeWorkbench_v$VER.apk"
-echo "[7/7] 构建完成 -> releases/LifeWorkbench_v$VER.apk"
+"$JAVA" -cp "C:\\wb-build\\lib\\apksigner.jar" com.android.apksigner.ApkSignerTool sign --ks "$WS\\keystore\\wb.keystore" --ks-pass pass:$KS_PASS --key-pass pass:$KS_PASS --out "C:\\wb-build\\out\\CaseOrCake_v$VER.apk" "C:\\wb-build\\out\\app-unsigned.apk"
+"$JAVA" -cp "C:\\wb-build\\lib\\apksigner.jar" com.android.apksigner.ApkSignerTool verify "C:\\wb-build\\out\\CaseOrCake_v$VER.apk"
+cp "$B/out/CaseOrCake_v$VER.apk" "$WS/releases/CaseOrCake_v$VER.apk"
+echo "[7/7] 构建完成 -> releases/CaseOrCake_v$VER.apk"

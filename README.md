@@ -1,4 +1,4 @@
-# 生活工作台 LifeWorkbench
+# CaseOrCake
 
 一个**纯离线、零广告、零账号、零追踪**的安卓个人生活管理 APP。
 单文件 HTML + 原生 WebView 壳，APK 仅约 60KB，数据完全保存在本机。

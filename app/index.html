@@ -9,7 +9,7 @@
 <meta name="theme-color" content="#FAFAFA">
 <link rel="manifest" href="./manifest.json">
 <link rel="apple-touch-icon" href="./icon-180.png">
-<title>生活工作台</title>
+<title>CaseOrCake</title>
 <style>
 /* ===== Reset & Base ===== */
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
@@ -412,7 +412,7 @@ svg{display:block}
 
 <!-- ===== Header ===== -->
 <header class="app-header">
-  <h1><span class="logo-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></span>生活工作台</h1>
+  <h1><span class="logo-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></span>CaseOrCake</h1>
   <div class="header-actions">
     <button class="icon-btn" onclick="Backup.exportJSON()" title="导出备份"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></button>
     <button class="icon-btn" onclick="document.getElementById('import-file').click()" title="导入恢复"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></button>
@@ -474,14 +474,14 @@ svg{display:block}
 
 <script>
 /* ============================================================
-   生活工作台 — Single File App
+   CaseOrCake — Single File App
    ============================================================ */
 
 /* ===== Utilities ===== */
 const $ = (s, p=document) => p.querySelector(s);
 const $$ = (s, p=document) => [...p.querySelectorAll(s)];
 const PREFIX = 'wb_life_';
-const APP_VERSION = '2.1.0';
+const APP_VERSION = '2.1.1';
 const genId = () => Date.now().toString(36) + Math.random().toString(36).slice(2,7);
 const _pad = n => String(n).padStart(2,'0');
 const todayStr = () => {const d=new Date();return d.getFullYear()+'-'+_pad(d.getMonth()+1)+'-'+_pad(d.getDate());};
@@ -496,6 +496,8 @@ function currentMonth(){return todayStr().slice(0,7)}
 function clamp(v,min,max){return Math.max(min,Math.min(max,v))}
 /* HTML 转义：所有用户输入插入 innerHTML 前必须过一遍 */
 function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+/* 金额显示：整数不带小数点，含小数保留两位（先按分舍入，避免浮点尾数） */
+function fmtMoney(v){const n=Math.round((+v||0)*100)/100;return Number.isInteger(n)?String(n):n.toFixed(2);}
 /* 统一文件导出：WebView 内 a.download 无效，优先走原生桥写入系统下载目录 */
 function saveFile(name,content,mime){
   if(window.AndroidBridge&&typeof window.AndroidBridge.saveFile==='function'){
@@ -842,7 +844,7 @@ const Charts = {
       angle+=a;
     });
     svg+=`<circle cx="${cx}" cy="${cy}" r="32" fill="var(--surface)"/>`;
-    svg+=`<text x="${cx}" y="${cy-2}" text-anchor="middle" font-size="13" font-weight="700" fill="var(--text)">¥${total>999?(total/1000).toFixed(1)+'k':total}</text>`;
+    svg+=`<text x="${cx}" y="${cy-2}" text-anchor="middle" font-size="13" font-weight="700" fill="var(--text)">¥${total>999?(Math.round(total/100)/10).toFixed(1)+'k':fmtMoney(total)}</text>`;
     svg+=`<text x="${cx}" y="${cy+12}" text-anchor="middle" font-size="9" fill="var(--text-3)">总支出</text>`;
     svg+='</svg>';
     // legend
@@ -1022,7 +1024,7 @@ const Today = {
         const pct=(monthExp/budget*100).toFixed(0);
         items+=`<div class="alert-item">
           <div class="alert-icon" style="background:var(--warning-bg);color:var(--warning)">${I.wallet}</div>
-          <div class="alert-body"><p>预算预警</p><span>本月已用 ${pct}% (¥${monthExp.toFixed(0)}/${budget})</span></div>
+          <div class="alert-body"><p>预算预警</p><span>本月已用 ${pct}% (¥${fmtMoney(monthExp)}/${budget})</span></div>
         </div>`;
       }
       alerts=`<div class="today-alerts">
@@ -1065,7 +1067,7 @@ const Today = {
         ${recentTx.map(t=>`<div class="tx-item" style="border:0;padding:8px 0">
           <div class="tx-cat-icon" style="background:${CAT_COLORS[t.category]||'#71717A'}">${esc((t.category||'?')[0])}</div>
           <div class="tx-body"><p>${esc(t.note||t.category)}</p><span>${fmtDate(t.date)}</span></div>
-          <div class="tx-amount ${t.type}">${t.type==='income'?'+':'-'}¥${t.amount}</div>
+          <div class="tx-amount ${t.type}">${t.type==='income'?'+':'-'}¥${fmtMoney(t.amount)}</div>
         </div>`).join('')}
       </div>`;
     }
@@ -1082,7 +1084,7 @@ const Today = {
       <div class="today-grid">
         <div class="stat-mini">
           <div class="stat-label">${I.wallet}<span>今日支出</span></div>
-          <div class="stat-value">¥${todayExp.toFixed(0)}</div>
+          <div class="stat-value">¥${fmtMoney(todayExp)}</div>
         </div>
         <div class="stat-mini">
           <div class="stat-label">${I.habit}<span>习惯完成</span></div>
@@ -1152,14 +1154,14 @@ const Finance = {
     
     $('#tab-finance').innerHTML=`
       <div class="fin-summary">
-        <div class="fin-card income"><div class="fin-label">收入</div><div class="fin-value">¥${income.toFixed(0)}</div></div>
-        <div class="fin-card expense"><div class="fin-label">支出</div><div class="fin-value">¥${expense.toFixed(0)}</div></div>
-        <div class="fin-card balance"><div class="fin-label">结余</div><div class="fin-value">¥${balance.toFixed(0)}</div></div>
+        <div class="fin-card income"><div class="fin-label">收入</div><div class="fin-value">¥${fmtMoney(income)}</div></div>
+        <div class="fin-card expense"><div class="fin-label">支出</div><div class="fin-value">¥${fmtMoney(expense)}</div></div>
+        <div class="fin-card balance"><div class="fin-label">结余</div><div class="fin-value">¥${fmtMoney(balance)}</div></div>
       </div>
       <div class="budget-bar-wrap">
         <div class="budget-info">
           <span>本月预算 <strong>${budget>0?'¥'+budget:'未设置'}</strong></span>
-          <span>已用 <strong style="color:${budgetPct>100?'var(--expense)':budgetPct>80?'var(--warning)':'var(--text)'}">¥${expense.toFixed(0)} ${budget>0?'('+budgetPct.toFixed(0)+'%)':''}</strong></span>
+          <span>已用 <strong style="color:${budgetPct>100?'var(--expense)':budgetPct>80?'var(--warning)':'var(--text)'}">¥${fmtMoney(expense)} ${budget>0?'('+budgetPct.toFixed(0)+'%)':''}</strong></span>
         </div>
         ${budget>0?`<div class="budget-bar"><div class="budget-fill ${budgetPct>100?'over':budgetPct>80?'warn':''}" style="width:${Math.min(budgetPct,100)}%"></div></div>`:''}
         <div style="display:flex;gap:8px;margin-top:10px">
@@ -1192,7 +1194,7 @@ const Finance = {
         ${txs.length?txs.map(t=>`<div class="tx-item" onclick="Finance.editTx('${t.id}')">
           <div class="tx-cat-icon" style="background:${CAT_COLORS[t.category]||'#71717A'}">${esc((t.category||'?')[0])}</div>
           <div class="tx-body"><p>${esc(t.note||t.category)}</p><span>${fmtDate(t.date)} · ${esc(t.category)}</span></div>
-          <div class="tx-amount ${t.type}">${t.type==='income'?'+':'-'}¥${t.amount}</div>
+          <div class="tx-amount ${t.type}">${t.type==='income'?'+':'-'}¥${fmtMoney(t.amount)}</div>
           <button class="tx-del" onclick="event.stopPropagation();Finance.delTx('${t.id}')">${I.trash}</button>
         </div>`).join(''):'<div class="empty-state">'+I.empty+'<p>本月暂无记录 · 点上方「记一笔」开始</p></div>'}
       </div>
@@ -1279,7 +1281,7 @@ const Finance = {
     });
     const r=saveFile(`记账_${todayStr()}.csv`,rows.join('\n'),'text/csv');
     if(r==='fail'){UI.toast('导出失败，请重试','error');return;}
-    UI.toast(r==='bridge'?'CSV 已保存到 下载/生活工作台':'CSV已导出','success');
+    UI.toast(r==='bridge'?'CSV 已保存到 下载/CaseOrCake':'CSV已导出','success');
   }
 };
 
@@ -1949,7 +1951,7 @@ const Shopping = {
     }else{
       html+=`<div class="shop-stats">
         <div class="shop-stat"><div class="ss-val">${unbought.length}</div><div class="ss-label">待买</div></div>
-        <div class="shop-stat"><div class="ss-val">¥${totalEst.toFixed(0)}</div><div class="ss-label">预计花费</div></div>
+        <div class="shop-stat"><div class="ss-val">¥${fmtMoney(totalEst)}</div><div class="ss-label">预计花费</div></div>
         <div class="shop-stat"><div class="ss-val">${bought.length}</div><div class="ss-label">已购</div></div>
       </div>`;
       // Sort: high priority first, then by category
@@ -1964,7 +1966,7 @@ const Shopping = {
           html+=`<div class="shop-item">
             <div class="shop-check" onclick="Shopping.toggle('${s.id}')">${I.check}</div>
             <div class="shop-body"><p class="shop-name">${esc(s.name)}</p><span>${s.category} · ${s.priority==='high'?'高':s.priority==='low'?'低':'中'}优先${s.note?' · '+esc(s.note):''}</span></div>
-            ${s.price?`<div class="shop-price">¥${s.price}</div>`:''}
+            ${s.price?`<div class="shop-price">¥${fmtMoney(s.price)}</div>`:''}
             <button class="shop-del" onclick="Shopping.del('${s.id}')">${I.trash}</button>
           </div>`;
         });
@@ -1974,7 +1976,7 @@ const Shopping = {
         bought.forEach(s=>{
           html+=`<div class="shop-item bought">
             <div class="shop-check done" onclick="Shopping.toggle('${s.id}')">${I.check}</div>
-            <div class="shop-body"><p class="shop-name">${esc(s.name)}</p><span>${s.category}${s.price?' · ¥'+s.price:''}</span></div>
+            <div class="shop-body"><p class="shop-name">${esc(s.name)}</p><span>${s.category}${s.price?' · ¥'+fmtMoney(s.price):''}</span></div>
             <button class="shop-del" onclick="Shopping.del('${s.id}')">${I.trash}</button>
           </div>`;
         });
@@ -2021,7 +2023,7 @@ const Shopping = {
       buzz(20);
       if(s.price>0){
         const catMap={'食品':'餐饮','日用':'其他','电子':'购物','服饰':'购物','图书':'教育','其他':'其他'};
-        UI.confirm(`已买下「${s.name}」¥${s.price}，要顺手把这笔支出记入账本吗？`,()=>{
+        UI.confirm(`已买下「${s.name}」¥${fmtMoney(s.price)}，要顺手把这笔支出记入账本吗？`,()=>{
           Data.transactions.add({type:'expense',amount:s.price,category:catMap[s.category]||'购物',date:todayStr(),note:s.name});
           App.render();UI.toast('已记入账本','success');
         },'记入账本');
@@ -2211,9 +2213,9 @@ const Backup = {
     });
     data._exportDate=new Date().toISOString();
     data._version=1;
-    const r=saveFile(`生活工作台_备份_${todayStr()}.json`,JSON.stringify(data,null,2),'application/json');
+    const r=saveFile(`CaseOrCake_备份_${todayStr()}.json`,JSON.stringify(data,null,2),'application/json');
     if(r==='fail'){UI.toast('导出失败，请重试','error');return;}
-    UI.toast(r==='bridge'?'备份已保存到 下载/生活工作台':'备份已导出','success');
+    UI.toast(r==='bridge'?'备份已保存到 下载/CaseOrCake':'备份已导出','success');
   },
   importJSON(file){
     const reader=new FileReader();

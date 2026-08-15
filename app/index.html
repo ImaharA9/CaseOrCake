@@ -14,9 +14,9 @@
 /* ===== Reset & Base ===== */
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --bg:#FAFAFA;--surface:#FFFFFF;--surface-2:#F5F5F7;--surface-3:#EFEFF2;
+  --bg:#FAF9F7;--surface:#FFFFFF;--surface-2:#F5F3F0;--surface-3:#EDEAE6;
   --text:#18181B;--text-2:#71717A;--text-3:#A1A1AA;--text-4:#C4C4C8;
-  --border:#E4E4E7;--border-2:#F4F4F5;
+  --border:#E8E4DF;--border-2:#F1EEE9;
   --accent:#6366F1;--accent-bg:#EEF2FF;--accent-text:#4F46E5;
   --income:#10B981;--income-bg:#ECFDF5;--income-text:#059669;
   --expense:#EF4444;--expense-bg:#FEF2F2;--expense-text:#DC2626;
@@ -25,12 +25,12 @@
   --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
   --fs-xs:11px;--fs-sm:13px;--fs-base:15px;--fs-lg:17px;--fs-xl:22px;--fs-2xl:28px;
   --sp-1:4px;--sp-2:8px;--sp-3:12px;--sp-4:16px;--sp-5:20px;--sp-6:24px;--sp-8:32px;
-  --r-sm:8px;--r-md:12px;--r-lg:16px;--r-xl:20px;--r-full:999px;
-  --shadow-sm:0 1px 2px rgba(0,0,0,.04);--shadow:0 2px 8px rgba(0,0,0,.06);--shadow-lg:0 8px 24px rgba(0,0,0,.1);
-  --t-fast:.15s ease;--t:.25s cubic-bezier(.4,0,.2,1);
-  --header-bg:rgba(255,255,255,.85);--nav-bg:rgba(250,250,250,.85);
-  --toast-bg:#18181B;--toast-text:#FFFFFF;
-  --logo-a:#6366F1;--logo-b:#8B5CF6;
+  --r-sm:10px;--r-md:14px;--r-lg:20px;--r-xl:24px;--r-full:999px;
+  --shadow-sm:0 1px 3px rgba(120,110,100,.05);--shadow:0 4px 14px rgba(120,110,100,.07);--shadow-lg:0 10px 30px rgba(120,110,100,.14);
+  --t-fast:.18s ease;--t:.3s cubic-bezier(.33,.66,.3,1);
+  --header-bg:rgba(255,255,255,.85);--nav-bg:rgba(250,249,247,.85);
+  --toast-bg:rgba(45,45,52,.94);--toast-text:#FFFFFF;
+  --logo-a:#818CF8;--logo-b:#A78BFA;
 }
 /* ===== 皮肤主题（配合 Theme 模块切换，data-theme 挂在 <html> 上）===== */
 [data-theme="sakura"]{
@@ -48,6 +48,14 @@
   --accent:#39C5BB;--accent-bg:#DFF5F2;--accent-text:#0E9F95;
   --header-bg:rgba(239,249,248,.88);--nav-bg:rgba(239,249,248,.88);
   --logo-a:#2FB8AE;--logo-b:#53D3C9;
+}
+[data-theme="mist"]{
+  --bg:#F3F6F4;--surface:#FFFFFF;--surface-2:#E9EFEA;--surface-3:#DDE6DF;
+  --text:#2F3B34;--text-2:#5C6B62;--text-3:#8A9890;--text-4:#B3BFB8;
+  --border:#D4DED7;--border-2:#E4EBE6;
+  --accent:#679B82;--accent-bg:#E3EEE7;--accent-text:#4F7D65;
+  --header-bg:rgba(243,246,244,.88);--nav-bg:rgba(243,246,244,.88);
+  --logo-a:#7BAA91;--logo-b:#A6C6B3;
 }
 [data-theme="hoshizora"]{
   --bg:#14152B;--surface:#1F2139;--surface-2:#282A48;--surface-3:#303352;
@@ -79,7 +87,7 @@
   --logo-a:#0EA5E9;--logo-b:#38BDF8;
 }
 html{font-size:var(--fs-base);-webkit-text-size-adjust:100%}
-body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:1.55;-webkit-font-smoothing:antialiased;min-height:100vh}
+body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased;min-height:100vh}
 button,input,select,textarea{font-family:inherit;font-size:inherit;color:inherit}
 button{cursor:pointer;border:none;background:none}
 input,select,textarea{outline:none;border:none;background:none}
@@ -110,7 +118,11 @@ svg{display:block}
 .app-main{max-width:860px;margin:0 auto;padding:var(--sp-5) var(--sp-4);padding-bottom:calc(80px + env(safe-area-inset-bottom))}
 .tab-content{display:none;animation:fadeIn .3s ease}
 .tab-content.active{display:block}
+.tab-content.slide-next{animation:slideFromRight .32s cubic-bezier(.25,.6,.3,1)}
+.tab-content.slide-prev{animation:slideFromLeft .32s cubic-bezier(.25,.6,.3,1)}
 @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+@keyframes slideFromRight{from{opacity:.35;transform:translateX(48px)}to{opacity:1;transform:translateX(0)}}
+@keyframes slideFromLeft{from{opacity:.35;transform:translateX(-48px)}to{opacity:1;transform:translateX(0)}}
 
 /* ===== Components ===== */
 .card{background:var(--surface);border-radius:var(--r-lg);padding:var(--sp-5);box-shadow:var(--shadow-sm);border:1px solid var(--border-2)}
@@ -178,8 +190,8 @@ svg{display:block}
 
 /* 今日英雄卡：渐变背景 + 情感文案 + 白色生活指数环 */
 .today-hero-card{position:relative;overflow:hidden;display:flex;justify-content:space-between;align-items:center;gap:var(--sp-4);background:linear-gradient(135deg,var(--logo-a),var(--logo-b));border-radius:var(--r-xl);padding:var(--sp-5);color:#fff;margin-bottom:var(--sp-4);box-shadow:var(--shadow)}
-.today-hero-card::before{content:'';position:absolute;width:170px;height:170px;border-radius:50%;background:rgba(255,255,255,.12);right:-46px;top:-64px;pointer-events:none}
-.today-hero-card::after{content:'';position:absolute;width:90px;height:90px;border-radius:50%;background:rgba(255,255,255,.09);left:-30px;bottom:-42px;pointer-events:none}
+.today-hero-card::before{content:'';position:absolute;width:170px;height:170px;border-radius:50%;background:rgba(255,255,255,.12);right:-46px;top:-64px;pointer-events:none;animation:breathe 9s ease-in-out infinite}
+.today-hero-card::after{content:'';position:absolute;width:90px;height:90px;border-radius:50%;background:rgba(255,255,255,.09);left:-30px;bottom:-42px;pointer-events:none;animation:breathe 12s ease-in-out infinite reverse}
 .today-hero-card .hero-date{font-size:var(--fs-xs);opacity:.85;margin-bottom:2px}
 .today-hero-card .hero-greet{font-size:var(--fs-2xl);font-weight:800;letter-spacing:-.03em;line-height:1.25}
 .today-hero-card .hero-msg{font-size:var(--fs-sm);opacity:.92;margin-top:6px;line-height:1.5}
@@ -403,7 +415,7 @@ svg{display:block}
 .empty-state{text-align:center;padding:44px 20px;color:var(--text-3)}
 .empty-state svg{width:48px;height:48px;margin:0 auto 12px;opacity:.3}
 .empty-state p{font-size:var(--fs-sm)}
-.empty-emoji{font-size:40px;margin-bottom:10px;line-height:1}
+.empty-emoji{font-size:40px;margin-bottom:10px;line-height:1;animation:breathe 6s ease-in-out infinite}
 .empty-title{font-size:var(--fs-base)!important;font-weight:600;color:var(--text-2);margin-bottom:4px}
 .empty-sub{font-size:var(--fs-xs)!important;color:var(--text-3);margin-bottom:2px}
 .section-sub{font-size:var(--fs-xs);color:var(--text-3);margin-top:2px}
@@ -432,6 +444,11 @@ svg{display:block}
 .flex-1{flex:1}
 .text-center{text-align:center}
 .tx-amount,.fin-value,.stat-value,.fm-value,.ms-val,.ss-val,.habit-count-val,.ring-score{font-variant-numeric:tabular-nums}
+/* ===== 平静呼吸动效（约 6~12s 慢周期，辅助降低唤醒）===== */
+@keyframes breathe{0%,100%{transform:scale(1);opacity:.9}50%{transform:scale(1.08);opacity:1}}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+}
 </style>
 </head>
 <body>
@@ -507,7 +524,7 @@ svg{display:block}
 const $ = (s, p=document) => p.querySelector(s);
 const $$ = (s, p=document) => [...p.querySelectorAll(s)];
 const PREFIX = 'wb_life_';
-const APP_VERSION = '2.2.0';
+const APP_VERSION = '2.3.0';
 const genId = () => Date.now().toString(36) + Math.random().toString(36).slice(2,7);
 const _pad = n => String(n).padStart(2,'0');
 const todayStr = () => {const d=new Date();return d.getFullYear()+'-'+_pad(d.getMonth()+1)+'-'+_pad(d.getDate());};
@@ -769,9 +786,18 @@ const UI = {
       this.toast('全部数据已清空','success');
     },'确认清空');
   },
-  switchTab(name){
+  switchTab(name,slide){
     $$('.tab').forEach(t=>t.classList.toggle('active',t.dataset.tab===name));
     $$('.tab-content').forEach(s=>s.classList.toggle('active',s.id==='tab-'+name));
+    const sec=$('#tab-'+name);
+    if(slide&&sec){
+      sec.classList.remove('slide-next','slide-prev');
+      void sec.offsetWidth;
+      sec.classList.add(slide==='next'?'slide-next':'slide-prev');
+      setTimeout(()=>sec.classList.remove('slide-next','slide-prev'),340);
+    }
+    const btn=$('.tab[data-tab="'+name+'"]');
+    if(btn&&btn.scrollIntoView){try{btn.scrollIntoView({behavior:'smooth',inline:'center',block:'nearest'});}catch(e){}}
     window.scrollTo(0,0);
   }
 };
@@ -2396,11 +2422,12 @@ const Demo = {
 /* ===== Theme 皮肤系统 ===== */
 const Theme = {
   list:[
-    {id:'default',name:'简约 · 默认',desc:'干净克制的气质紫',colors:['#FAFAFA','#6366F1','#18181B'],bar:'#FAFAFA',light:true},
+    {id:'default',name:'简约 · 默认',desc:'暖纸白与柔和薰衣草紫',colors:['#FAF9F7','#818CF8','#18181B'],bar:'#FAF9F7',light:true},
     {id:'sakura',name:'樱色 · Sakura 🌸',desc:'樱花纷飞的春日粉',colors:['#FDF3F7','#EC4899','#40222F'],bar:'#FDF3F7',light:true},
     {id:'miku',name:'葱绿 · Miku 🎵',desc:'初音未来的应援色',colors:['#EFF9F8','#39C5BB','#103C38'],bar:'#EFF9F8',light:true},
     {id:'sora',name:'苍空 · Sora ☁️',desc:'高空云层的清透蓝',colors:['#F0F7FF','#0EA5E9','#0C2B4E'],bar:'#F0F7FF',light:true},
     {id:'yuuyake',name:'夕阳 · Yuuyake 🌇',desc:'放学后暖橘色的天空',colors:['#FFF7ED','#F97316','#431407'],bar:'#FFF7ED',light:true},
+    {id:'mist',name:'晨雾 · Mist 🍃',desc:'雾林清晨的鼠尾草绿，深呼吸',colors:['#F3F6F4','#679B82','#2F3B34'],bar:'#F3F6F4',light:true},
     {id:'hoshizora',name:'星空 · 暗夜 🌌',desc:'深色护眼，熬夜搭档',colors:['#14152B','#8B7CF6','#E9EAF6'],bar:'#14152B',light:false},
   ],
   current(){return Store.get('theme','default');},
@@ -2444,6 +2471,32 @@ const App = {
     $$('.tab').forEach(t=>{
       t.addEventListener('click',()=>UI.switchTab(t.dataset.tab));
     });
+    
+    // Swipe left/right to switch sections
+    const tabOrder=['today','finance','habits','fitness','running','schedule','shopping','media'];
+    let swX=0,swY=0,swT=0,swOn=false;
+    const mainEl=$('.app-main');
+    mainEl.addEventListener('touchstart',e=>{
+      const t=e.touches[0];swX=t.clientX;swY=t.clientY;swT=Date.now();swOn=true;
+    },{passive:true});
+    mainEl.addEventListener('touchmove',e=>{
+      if(!swOn)return;
+      const t=e.touches[0];
+      if(Math.abs(t.clientY-swY)>60&&Math.abs(t.clientY-swY)>Math.abs(t.clientX-swX))swOn=false;
+    },{passive:true});
+    mainEl.addEventListener('touchend',e=>{
+      if(!swOn)return;swOn=false;
+      if(Date.now()-swT>800)return;
+      const t=e.changedTouches[0];
+      const dx=t.clientX-swX,dy=t.clientY-swY;
+      if(Math.abs(dx)<56||Math.abs(dx)<Math.abs(dy)*1.2)return;
+      const act=$('.tab-content.active');
+      if(!act)return;
+      const cur=tabOrder.findIndex(n=>'tab-'+n===act.id);
+      if(cur<0)return;
+      if(dx<0&&cur<tabOrder.length-1)UI.switchTab(tabOrder[cur+1],'next');
+      if(dx>0&&cur>0)UI.switchTab(tabOrder[cur-1],'prev');
+    },{passive:true});
     
     // File import
     $('#import-file').addEventListener('change',e=>{

@@ -176,6 +176,18 @@ svg{display:block}
 .life-ring .ring-score{font-size:var(--fs-xl);font-weight:800;letter-spacing:-.02em}
 .life-ring .ring-text{font-size:9px;color:var(--text-3);font-weight:600;text-transform:uppercase;letter-spacing:.05em}
 
+/* 今日英雄卡：渐变背景 + 情感文案 + 白色生活指数环 */
+.today-hero-card{position:relative;overflow:hidden;display:flex;justify-content:space-between;align-items:center;gap:var(--sp-4);background:linear-gradient(135deg,var(--logo-a),var(--logo-b));border-radius:var(--r-xl);padding:var(--sp-5);color:#fff;margin-bottom:var(--sp-4);box-shadow:var(--shadow)}
+.today-hero-card::before{content:'';position:absolute;width:170px;height:170px;border-radius:50%;background:rgba(255,255,255,.12);right:-46px;top:-64px;pointer-events:none}
+.today-hero-card::after{content:'';position:absolute;width:90px;height:90px;border-radius:50%;background:rgba(255,255,255,.09);left:-30px;bottom:-42px;pointer-events:none}
+.today-hero-card .hero-date{font-size:var(--fs-xs);opacity:.85;margin-bottom:2px}
+.today-hero-card .hero-greet{font-size:var(--fs-2xl);font-weight:800;letter-spacing:-.03em;line-height:1.25}
+.today-hero-card .hero-msg{font-size:var(--fs-sm);opacity:.92;margin-top:6px;line-height:1.5}
+.today-hero-card .life-ring{width:88px;height:88px}
+.today-hero-card .ring-bg{stroke:rgba(255,255,255,.28)}
+.today-hero-card .ring-fg{stroke:#fff}
+.today-hero-card .ring-score,.today-hero-card .ring-text{color:#fff}
+
 .today-alerts{background:var(--surface);border-radius:var(--r-lg);padding:var(--sp-4);box-shadow:var(--shadow-sm);border:1px solid var(--border-2);margin-bottom:var(--sp-4)}
 .today-alerts .alert-title{font-size:var(--fs-sm);font-weight:600;color:var(--text-2);margin-bottom:var(--sp-3);display:flex;align-items:center;gap:6px}
 .today-alerts .alert-title svg{width:15px;height:15px}
@@ -270,6 +282,14 @@ svg{display:block}
 .heat-cell.l3{background:#818CF8}
 .heat-cell.l4{background:var(--accent)}
 .heatmap-labels{display:flex;justify-content:space-between;font-size:10px;color:var(--text-3);margin-top:6px}
+.habit-progress{height:6px;background:var(--surface-2);border-radius:var(--r-full);overflow:hidden;margin-top:10px}
+.habit-progress-fill{height:100%;border-radius:var(--r-full);transition:width .4s ease}
+.habit-progress-label{display:flex;justify-content:space-between;font-size:10px;color:var(--text-3);margin-top:4px}
+.habit-card{transition:transform var(--t-fast),box-shadow var(--t-fast)}
+.habit-card:active{transform:scale(.99)}
+.stat-bubble{width:22px;height:22px;border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.stat-bubble svg{width:13px;height:13px}
+.btn-primary{box-shadow:0 2px 8px var(--accent-bg)}
 
 /* ===== Fitness Module ===== */
 .fit-overview{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--sp-3);margin-bottom:var(--sp-4)}
@@ -380,9 +400,15 @@ svg{display:block}
 .star-input svg:hover{color:#FBBF24}
 
 /* ===== Empty State ===== */
-.empty-state{text-align:center;padding:40px 20px;color:var(--text-3)}
+.empty-state{text-align:center;padding:44px 20px;color:var(--text-3)}
 .empty-state svg{width:48px;height:48px;margin:0 auto 12px;opacity:.3}
 .empty-state p{font-size:var(--fs-sm)}
+.empty-emoji{font-size:40px;margin-bottom:10px;line-height:1}
+.empty-title{font-size:var(--fs-base)!important;font-weight:600;color:var(--text-2);margin-bottom:4px}
+.empty-sub{font-size:var(--fs-xs)!important;color:var(--text-3);margin-bottom:2px}
+.section-sub{font-size:var(--fs-xs);color:var(--text-3);margin-top:2px}
+.section-title{display:flex;align-items:center;gap:8px}
+.section-title::before{content:'';width:4px;height:16px;border-radius:2px;background:linear-gradient(var(--logo-a),var(--logo-b));flex-shrink:0}
 
 /* ===== Utility ===== */
 .flex{display:flex}
@@ -481,7 +507,7 @@ svg{display:block}
 const $ = (s, p=document) => p.querySelector(s);
 const $$ = (s, p=document) => [...p.querySelectorAll(s)];
 const PREFIX = 'wb_life_';
-const APP_VERSION = '2.1.1';
+const APP_VERSION = '2.2.0';
 const genId = () => Date.now().toString(36) + Math.random().toString(36).slice(2,7);
 const _pad = n => String(n).padStart(2,'0');
 const todayStr = () => {const d=new Date();return d.getFullYear()+'-'+_pad(d.getMonth()+1)+'-'+_pad(d.getDate());};
@@ -972,8 +998,9 @@ const Today = {
     const now=new Date();
     const hr=now.getHours();
     const greet=hr<6?'夜深了':hr<11?'早上好':hr<14?'中午好':hr<18?'下午好':hr<22?'晚上好':'夜深了';
+    const greetEmoji=hr<6?'✨':hr<11?'☀️':hr<14?'🌤️':hr<18?'🌇':hr<22?'🌙':'✨';
     const score=this.lifeIndex();
-    const ringColor=score>=70?'var(--income)':score>=40?'var(--accent)':'var(--warning)';
+    const heroMsg=score>=85?'今天的自律值拉满，闪闪发光！':score>=70?'状态不错，继续保持这个节奏':score>=40?'进度过半，再推自己一把':'别急，完成一件小事就是好的开始';
     
     // Today's alerts
     const overdue=Data.schedules.all().filter(s=>s.date<todayStr()&&!s.done);
@@ -1073,29 +1100,30 @@ const Today = {
     }
     
     $('#tab-today').innerHTML=`
-      <div class="today-hero">
-        <div class="greeting">
-          <p>${fmtDateFull(todayStr())}</p>
-          <h2>${greet}</h2>
+      <div class="today-hero-card">
+        <div style="position:relative;z-index:1;min-width:0">
+          <p class="hero-date">${fmtDateFull(todayStr())}</p>
+          <h2 class="hero-greet">${greet} ${greetEmoji}</h2>
+          <p class="hero-msg">${heroMsg}</p>
         </div>
-        ${Charts.progressRing(score,84,6,ringColor)}
+        ${Charts.progressRing(score,88,6,'#FFFFFF')}
       </div>
       ${alerts}
       <div class="today-grid">
         <div class="stat-mini">
-          <div class="stat-label">${I.wallet}<span>今日支出</span></div>
+          <div class="stat-label"><span class="stat-bubble" style="background:var(--warning-bg);color:var(--warning-text)">${I.wallet}</span><span>今日支出</span></div>
           <div class="stat-value">¥${fmtMoney(todayExp)}</div>
         </div>
         <div class="stat-mini">
-          <div class="stat-label">${I.habit}<span>习惯完成</span></div>
+          <div class="stat-label"><span class="stat-bubble" style="background:var(--income-bg);color:var(--income-text)">${I.habit}</span><span>习惯完成</span></div>
           <div class="stat-value">${habitDone}/${habitTotal}</div>
         </div>
         <div class="stat-mini">
-          <div class="stat-label">${I.calendar}<span>今日日程</span></div>
+          <div class="stat-label"><span class="stat-bubble" style="background:var(--accent-bg);color:var(--accent-text)">${I.calendar}</span><span>今日日程</span></div>
           <div class="stat-value">${todayAll.length-todaySched.length}/${todayAll.length}</div>
         </div>
         <div class="stat-mini">
-          <div class="stat-label">${I.heart}<span>体重趋势</span></div>
+          <div class="stat-label"><span class="stat-bubble" style="background:var(--expense-bg);color:var(--expense-text)">${I.heart}</span><span>体重趋势</span></div>
           <div class="stat-value">${weightTrend}</div>
         </div>
       </div>
@@ -1153,6 +1181,13 @@ const Finance = {
     const cats=this.filter.type==='income'?this.categories.income:this.filter.type==='expense'?this.categories.expense:[...this.categories.expense,...this.categories.income];
     
     $('#tab-finance').innerHTML=`
+      <div class="flex-between mb-4">
+        <div>
+          <h2 class="section-title" style="margin:0">记账</h2>
+          <p class="section-sub">每一笔收支，都值得被记住</p>
+        </div>
+        <button class="btn btn-primary btn-sm" onclick="Finance.addTx()">${I.plus}记一笔</button>
+      </div>
       <div class="fin-summary">
         <div class="fin-card income"><div class="fin-label">收入</div><div class="fin-value">¥${fmtMoney(income)}</div></div>
         <div class="fin-card expense"><div class="fin-label">支出</div><div class="fin-value">¥${fmtMoney(expense)}</div></div>
@@ -1196,7 +1231,7 @@ const Finance = {
           <div class="tx-body"><p>${esc(t.note||t.category)}</p><span>${fmtDate(t.date)} · ${esc(t.category)}</span></div>
           <div class="tx-amount ${t.type}">${t.type==='income'?'+':'-'}¥${fmtMoney(t.amount)}</div>
           <button class="tx-del" onclick="event.stopPropagation();Finance.delTx('${t.id}')">${I.trash}</button>
-        </div>`).join(''):'<div class="empty-state">'+I.empty+'<p>本月暂无记录 · 点上方「记一笔」开始</p></div>'}
+        </div>`).join(''):'<div class="empty-state"><div class="empty-emoji">💰</div><p class="empty-title">本月还没有记录</p><p class="empty-sub">点「记一笔」，把花出去的每一分都留住</p></div>'}
       </div>
     `;
   },
@@ -1291,11 +1326,14 @@ const Habits = {
   render(){
     const habits=Data.habits.all();
     let html=`<div class="flex-between mb-4">
-      <h2 class="section-title" style="margin:0">习惯打卡</h2>
+      <div>
+        <h2 class="section-title" style="margin:0">习惯打卡</h2>
+        <p class="section-sub">每天一小步，坚持看得见</p>
+      </div>
       <button class="btn btn-primary btn-sm" onclick="Habits.add()">${I.plus}新增习惯</button>
     </div>`;
     if(!habits.length){
-      html+=`<div class="empty-state">${I.empty}<p>还没有习惯，添加一个开始打卡吧</p></div>`;
+      html+=`<div class="empty-state"><div class="empty-emoji">🌱</div><p class="empty-title">种下你的第一个习惯</p><p class="empty-sub">每天坚持一点点，30 天后回头看会很惊讶</p><button class="btn btn-primary btn-sm mt-3" onclick="Habits.add()">${I.plus}新增习惯</button></div>`;
     }else{
       habits.forEach((h,idx)=>{
         const color=this.colors[idx%this.colors.length];
@@ -1332,6 +1370,13 @@ const Habits = {
           todayCtrl=`<input type="number" class="habit-input" value="${val}" placeholder="0" onchange="Habits.setValue('${h.id}',this.value)" style="min-height:36px">
           <span style="font-size:12px;color:var(--text-3)">${h.unit||''} / 目标 ${h.target}</span>`;
         }
+        let progressHtml='';
+        if(h.type!=='check'){
+          const pval=log?log.value:0;
+          const pct=clamp(pval/(h.target||1)*100,0,100);
+          progressHtml=`<div class="habit-progress"><div class="habit-progress-fill" style="width:${pct}%;background:${color}"></div></div>
+          <div class="habit-progress-label"><span>今日进度</span><span>${pct>=100?'已达成 🎉':Math.round(pct)+'%'}</span></div>`;
+        }
         html+=`<div class="habit-card">
           <div class="habit-header">
             <span class="habit-dot" style="background:${color}"></span>
@@ -1341,7 +1386,8 @@ const Habits = {
             <button class="habit-del" onclick="Habits.del('${h.id}')">${I.trash}</button>
           </div>
           <div class="habit-today">${todayCtrl}</div>
-          <div style="font-size:11px;color:var(--text-3);margin-bottom:4px">最近30天 · 点格子可补卡</div>
+          ${progressHtml}
+          <div style="font-size:11px;color:var(--text-3);margin:8px 0 4px">最近30天 · 点格子可补卡</div>
           <div class="heatmap">${heatCells}</div>
           <div class="heatmap-labels"><span>30天前</span><span>今天</span></div>
         </div>`;
@@ -1489,7 +1535,10 @@ const Fitness = {
     
     $('#tab-fitness').innerHTML=`
       <div class="flex-between mb-4">
-        <h2 class="section-title" style="margin:0">减脂健身</h2>
+        <div>
+          <h2 class="section-title" style="margin:0">减脂健身</h2>
+          <p class="section-sub">身体在一点点变好</p>
+        </div>
         <div style="display:flex;gap:6px">
           <button class="btn btn-secondary btn-sm" onclick="Fitness.setGoal()">目标</button>
           <button class="btn btn-primary btn-sm" onclick="Fitness.addRecord()">记录</button>
@@ -1694,7 +1743,10 @@ const Run = {
 
     $('#tab-running').innerHTML=`
       <div class="flex-between mb-4">
-        <h2 class="section-title" style="margin:0">跑步</h2>
+        <div>
+          <h2 class="section-title" style="margin:0">跑步</h2>
+          <p class="section-sub">每一步都算数</p>
+        </div>
         <div style="display:flex;gap:6px">
           <button class="btn btn-secondary btn-sm" onclick="Run.addShoe()">添加跑鞋</button>
           <button class="btn btn-primary btn-sm" onclick="Run.addRun()">${I.plus}记一次跑步</button>
@@ -1761,7 +1813,7 @@ const Run = {
             ${r.note?`<div style="flex:1;color:var(--text-2);font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(r.note)}</div>`:''}
           </div>
           <button class="fr-del" onclick="Run.delRun('${r.id}')">${I.trash}</button>
-        </div>`).join(''):'<div class="empty-state">'+I.empty+'<p>还没有跑步记录，点右上角「记一次跑步」开始吧</p></div>'}
+        </div>`).join(''):'<div class="empty-state"><div class="empty-emoji">🏃</div><p class="empty-title">还没有跑步记录</p><p class="empty-sub">点右上角「记一次跑步」，跑出第一个公里</p></div>'}
       </div>
     `;
   },
@@ -1854,12 +1906,15 @@ const Schedule = {
     const later=all.filter(s=>s.date>weekEnd&&!s.done).sort((a,b)=>a.date<b.date?-1:1);
     
     let html=`<div class="flex-between mb-4">
-      <h2 class="section-title" style="margin:0">日程统筹</h2>
+      <div>
+        <h2 class="section-title" style="margin:0">日程统筹</h2>
+        <p class="section-sub">把日子过出节奏感</p>
+      </div>
       <button class="btn btn-primary btn-sm" onclick="Schedule.add()">${I.plus}添加</button>
     </div>`;
     
     if(!all.length){
-      html+=`<div class="empty-state">${I.empty}<p>暂无日程</p></div>`;
+      html+=`<div class="empty-state"><div class="empty-emoji">📅</div><p class="empty-title">还没有日程</p><p class="empty-sub">加一条，重要的日子我帮你记着</p><button class="btn btn-primary btn-sm mt-3" onclick="Schedule.add()">${I.plus}添加日程</button></div>`;
     }else{
       if(overdue.length)html+=this._group('逾期未完成',overdue,'overdue');
       if(todayItems.length)html+=this._group('今天',todayItems,'');
@@ -1942,12 +1997,15 @@ const Shopping = {
     const totalBought=bought.reduce((s,i)=>s+(i.price||0),0);
     
     let html=`<div class="flex-between mb-4">
-      <h2 class="section-title" style="margin:0">待买清单</h2>
+      <div>
+        <h2 class="section-title" style="margin:0">待买清单</h2>
+        <p class="section-sub">想买的先记着，买到的划掉</p>
+      </div>
       <button class="btn btn-primary btn-sm" onclick="Shopping.add()">${I.plus}添加</button>
     </div>`;
     
     if(!all.length){
-      html+=`<div class="empty-state">${I.empty+'<p>清单是空的</p>'}</div>`;
+      html+=`<div class="empty-state"><div class="empty-emoji">🛒</div><p class="empty-title">清单是空的</p><p class="empty-sub">想买什么先记下来，不怕忘也不怕乱买</p><button class="btn btn-primary btn-sm mt-3" onclick="Shopping.add()">${I.plus}添加物品</button></div>`;
     }else{
       html+=`<div class="shop-stats">
         <div class="shop-stat"><div class="ss-val">${unbought.length}</div><div class="ss-label">待买</div></div>
@@ -2053,7 +2111,10 @@ const Media = {
     if(this.filter!=='all')filtered=all.filter(m=>m.type===this.filter);
     
     let html=`<div class="flex-between mb-4">
-      <h2 class="section-title" style="margin:0">书影音收藏</h2>
+      <div>
+        <h2 class="section-title" style="margin:0">书影音收藏</h2>
+        <p class="section-sub">好作品值得被记住</p>
+      </div>
       <button class="btn btn-primary btn-sm" onclick="Media.add()">${I.plus}添加</button>
     </div>`;
     
@@ -2075,7 +2136,7 @@ const Media = {
     </div>`;
     
     if(!filtered.length){
-      html+=`<div class="empty-state">${I.empty}<p>收藏夹空空如也</p></div>`;
+      html+=`<div class="empty-state"><div class="empty-emoji">🎬</div><p class="empty-title">收藏夹空空如也</p><p class="empty-sub">看过的好书好片好音乐，都值得留个位置</p><button class="btn btn-primary btn-sm mt-3" onclick="Media.add()">${I.plus}添加收藏</button></div>`;
     }else{
       if(this.view==='wall'){
         html+='<div class="media-wall">';

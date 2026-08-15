@@ -14,10 +14,10 @@
 /* ===== Reset & Base ===== */
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --bg:#FAF9F7;--surface:#FFFFFF;--surface-2:#F5F3F0;--surface-3:#EDEAE6;
-  --text:#18181B;--text-2:#71717A;--text-3:#A1A1AA;--text-4:#C4C4C8;
-  --border:#E8E4DF;--border-2:#F1EEE9;
-  --accent:#6366F1;--accent-bg:#EEF2FF;--accent-text:#4F46E5;
+  --bg:#F7F4EF;--surface:#FFFFFF;--surface-2:#F3EFE9;--surface-3:#ECE7DF;
+  --text:#403B36;--text-2:#7A736B;--text-3:#A69E93;--text-4:#C8C0B4;
+  --border:#EAE3D9;--border-2:#F0EAE1;
+  --accent:#7B83E0;--accent-bg:#EDEFFA;--accent-text:#5A60C0;
   --income:#10B981;--income-bg:#ECFDF5;--income-text:#059669;
   --expense:#EF4444;--expense-bg:#FEF2F2;--expense-text:#DC2626;
   --warning:#F59E0B;--warning-bg:#FFFBEB;--warning-text:#D97706;
@@ -26,11 +26,11 @@
   --fs-xs:11px;--fs-sm:13px;--fs-base:15px;--fs-lg:17px;--fs-xl:22px;--fs-2xl:28px;
   --sp-1:4px;--sp-2:8px;--sp-3:12px;--sp-4:16px;--sp-5:20px;--sp-6:24px;--sp-8:32px;
   --r-sm:10px;--r-md:14px;--r-lg:20px;--r-xl:24px;--r-full:999px;
-  --shadow-sm:0 1px 3px rgba(120,110,100,.05);--shadow:0 4px 14px rgba(120,110,100,.07);--shadow-lg:0 10px 30px rgba(120,110,100,.14);
+  --shadow-sm:0 1px 3px rgba(150,135,115,.06);--shadow:0 4px 16px rgba(150,135,115,.09);--shadow-lg:0 12px 32px rgba(150,135,115,.16);
   --t-fast:.18s ease;--t:.3s cubic-bezier(.33,.66,.3,1);
-  --header-bg:rgba(255,255,255,.85);--nav-bg:rgba(250,249,247,.85);
+  --header-bg:rgba(255,253,250,.85);--nav-bg:rgba(247,244,239,.86);
   --toast-bg:rgba(45,45,52,.94);--toast-text:#FFFFFF;
-  --logo-a:#818CF8;--logo-b:#A78BFA;
+  --logo-a:#8B93E8;--logo-b:#B3A6F2;
 }
 /* ===== 皮肤主题（配合 Theme 模块切换，data-theme 挂在 <html> 上）===== */
 [data-theme="sakura"]{
@@ -87,7 +87,7 @@
   --logo-a:#0EA5E9;--logo-b:#38BDF8;
 }
 html{font-size:var(--fs-base);-webkit-text-size-adjust:100%}
-body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased;min-height:100vh}
+body{font-family:var(--font);background:linear-gradient(180deg,var(--surface-2) 0%,var(--bg) 280px);background-color:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased;min-height:100vh}
 button,input,select,textarea{font-family:inherit;font-size:inherit;color:inherit}
 button{cursor:pointer;border:none;background:none}
 input,select,textarea{outline:none;border:none;background:none}
@@ -99,7 +99,7 @@ svg{display:block}
 /* ===== Header ===== */
 .app-header{position:sticky;top:0;z-index:100;background:var(--header-bg);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--border-2);padding:0 var(--sp-5);height:52px;display:flex;align-items:center;justify-content:space-between}
 .app-header h1{font-size:var(--fs-lg);font-weight:700;letter-spacing:-.02em;display:flex;align-items:center;gap:8px}
-.logo-dot{width:22px;height:22px;border-radius:7px;background:linear-gradient(135deg,var(--logo-a),var(--logo-b));display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.logo-dot{width:22px;height:22px;border-radius:7px;background:linear-gradient(135deg,var(--logo-a),var(--logo-b));display:flex;align-items:center;justify-content:center;flex-shrink:0;animation:breatheSoft 8s ease-in-out infinite}
 .logo-dot svg{width:14px;height:14px;color:#fff}
 .header-actions{display:flex;gap:6px;align-items:center}
 .icon-btn{width:36px;height:36px;border-radius:var(--r-sm);display:flex;align-items:center;justify-content:center;color:var(--text-2);transition:all var(--t-fast)}
@@ -116,13 +116,14 @@ svg{display:block}
 
 /* ===== Main ===== */
 .app-main{max-width:860px;margin:0 auto;padding:var(--sp-5) var(--sp-4);padding-bottom:calc(80px + env(safe-area-inset-bottom))}
-.tab-content{display:none;animation:fadeIn .3s ease}
+.tab-content{display:none}
 .tab-content.active{display:block}
-.tab-content.slide-next{animation:slideFromRight .32s cubic-bezier(.25,.6,.3,1)}
-.tab-content.slide-prev{animation:slideFromLeft .32s cubic-bezier(.25,.6,.3,1)}
+.tab-content.anim-fade{animation:fadeIn .28s ease}
+.tab-content.slide-next{animation:slideFromRight .28s cubic-bezier(.25,.6,.3,1)}
+.tab-content.slide-prev{animation:slideFromLeft .28s cubic-bezier(.25,.6,.3,1)}
 @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
-@keyframes slideFromRight{from{opacity:.35;transform:translateX(48px)}to{opacity:1;transform:translateX(0)}}
-@keyframes slideFromLeft{from{opacity:.35;transform:translateX(-48px)}to{opacity:1;transform:translateX(0)}}
+@keyframes slideFromRight{from{opacity:.55;transform:translateX(26px)}to{opacity:1;transform:translateX(0)}}
+@keyframes slideFromLeft{from{opacity:.55;transform:translateX(-26px)}to{opacity:1;transform:translateX(0)}}
 
 /* ===== Components ===== */
 .card{background:var(--surface);border-radius:var(--r-lg);padding:var(--sp-5);box-shadow:var(--shadow-sm);border:1px solid var(--border-2)}
@@ -446,6 +447,7 @@ svg{display:block}
 .tx-amount,.fin-value,.stat-value,.fm-value,.ms-val,.ss-val,.habit-count-val,.ring-score{font-variant-numeric:tabular-nums}
 /* ===== 平静呼吸动效（约 6~12s 慢周期，辅助降低唤醒）===== */
 @keyframes breathe{0%,100%{transform:scale(1);opacity:.9}50%{transform:scale(1.08);opacity:1}}
+@keyframes breatheSoft{0%,100%{transform:scale(1)}50%{transform:scale(1.045)}}
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
 }
@@ -524,7 +526,7 @@ svg{display:block}
 const $ = (s, p=document) => p.querySelector(s);
 const $$ = (s, p=document) => [...p.querySelectorAll(s)];
 const PREFIX = 'wb_life_';
-const APP_VERSION = '2.3.0';
+const APP_VERSION = '2.3.1';
 const genId = () => Date.now().toString(36) + Math.random().toString(36).slice(2,7);
 const _pad = n => String(n).padStart(2,'0');
 const todayStr = () => {const d=new Date();return d.getFullYear()+'-'+_pad(d.getMonth()+1)+'-'+_pad(d.getDate());};
@@ -790,11 +792,11 @@ const UI = {
     $$('.tab').forEach(t=>t.classList.toggle('active',t.dataset.tab===name));
     $$('.tab-content').forEach(s=>s.classList.toggle('active',s.id==='tab-'+name));
     const sec=$('#tab-'+name);
-    if(slide&&sec){
-      sec.classList.remove('slide-next','slide-prev');
+    if(sec){
+      sec.classList.remove('anim-fade','slide-next','slide-prev');
       void sec.offsetWidth;
-      sec.classList.add(slide==='next'?'slide-next':'slide-prev');
-      setTimeout(()=>sec.classList.remove('slide-next','slide-prev'),340);
+      sec.classList.add(slide==='next'?'slide-next':slide==='prev'?'slide-prev':'anim-fade');
+      setTimeout(()=>sec.classList.remove('anim-fade','slide-next','slide-prev'),320);
     }
     const btn=$('.tab[data-tab="'+name+'"]');
     if(btn&&btn.scrollIntoView){try{btn.scrollIntoView({behavior:'smooth',inline:'center',block:'nearest'});}catch(e){}}
@@ -2422,7 +2424,7 @@ const Demo = {
 /* ===== Theme 皮肤系统 ===== */
 const Theme = {
   list:[
-    {id:'default',name:'简约 · 默认',desc:'暖纸白与柔和薰衣草紫',colors:['#FAF9F7','#818CF8','#18181B'],bar:'#FAF9F7',light:true},
+    {id:'default',name:'简约 · 默认',desc:'暖奶油底与柔和雾蓝紫',colors:['#F7F4EF','#8B93E8','#403B36'],bar:'#F7F4EF',light:true},
     {id:'sakura',name:'樱色 · Sakura 🌸',desc:'樱花纷飞的春日粉',colors:['#FDF3F7','#EC4899','#40222F'],bar:'#FDF3F7',light:true},
     {id:'miku',name:'葱绿 · Miku 🎵',desc:'初音未来的应援色',colors:['#EFF9F8','#39C5BB','#103C38'],bar:'#EFF9F8',light:true},
     {id:'sora',name:'苍空 · Sora ☁️',desc:'高空云层的清透蓝',colors:['#F0F7FF','#0EA5E9','#0C2B4E'],bar:'#F0F7FF',light:true},

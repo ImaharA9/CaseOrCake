@@ -209,6 +209,10 @@ svg{display:block}
 .chef-tag{font-size:10px;font-weight:700;color:#C08A3E;display:flex;align-items:center;gap:4px}
 .chef-bubble p{font-size:12.5px;line-height:1.5;margin:3px 0 2px;font-weight:500}
 .chef-date{font-size:10px;color:#4A4238;opacity:.5}
+.chef-lv{font-style:normal;background:linear-gradient(135deg,#FFB347,#FF8C42);color:#fff;padding:1px 7px;border-radius:999px;font-size:9.5px;font-weight:700;letter-spacing:.2px;box-shadow:0 1px 3px rgba(255,140,66,.4)}
+.chef-xp{position:relative;height:13px;background:rgba(74,66,56,.08);border-radius:999px;margin-top:5px;overflow:hidden}
+.chef-xp-fill{position:absolute;left:0;top:0;bottom:0;background:linear-gradient(90deg,#FFC93C,#FF8C42);border-radius:999px;transition:width .6s cubic-bezier(.33,.66,.3,1)}
+.chef-xp-txt{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:8.5px;font-weight:600;color:#6B5B40;letter-spacing:.2px}
 /* 彩纸庆祝 */
 .confetti{position:fixed;top:-14px;width:8px;height:13px;border-radius:2px;z-index:400;pointer-events:none;animation:confettiFall 1.5s ease-in forwards}
 @keyframes confettiFall{to{transform:translateY(106vh) rotate(560deg);opacity:.15}}
@@ -538,7 +542,7 @@ svg{display:block}
 const $ = (s, p=document) => p.querySelector(s);
 const $$ = (s, p=document) => [...p.querySelectorAll(s)];
 const PREFIX = 'wb_life_';
-const APP_VERSION = '2.4.0';
+const APP_VERSION = '2.5.0';
 const genId = () => Date.now().toString(36) + Math.random().toString(36).slice(2,7);
 const _pad = n => String(n).padStart(2,'0');
 const todayStr = () => {const d=new Date();return d.getFullYear()+'-'+_pad(d.getMonth()+1)+'-'+_pad(d.getDate());};
@@ -815,7 +819,7 @@ const UI = {
   },
   clearAll(){
     this.confirm('⚠️ 确定清空全部数据？此操作不可撤销！建议先导出备份。',()=>{
-      ['transactions','habits','habit_logs','fitness','fitness_cal','schedules','shopping','media','runs','shoes','budget','fitness_goal','week_plan','demo_loaded','demo_version'].forEach(k=>Store.remove(k));
+      ['transactions','habits','habit_logs','fitness','fitness_cal','schedules','shopping','media','runs','shoes','budget','fitness_goal','week_plan','demo_loaded','demo_version','chef_level'].forEach(k=>Store.remove(k));
       Store.set('demo_loaded',true);
       Store.set('demo_version',2);
       this.closeModal();
@@ -2348,7 +2352,7 @@ const Media = {
 const Backup = {
   exportJSON(){
     const data={};
-    ['transactions','habits','habit_logs','fitness','fitness_cal','schedules','shopping','media','runs','shoes','budget','fitness_goal','week_plan','demo_loaded','theme'].forEach(k=>{
+    ['transactions','habits','habit_logs','fitness','fitness_cal','schedules','shopping','media','runs','shoes','budget','fitness_goal','week_plan','demo_loaded','theme','chef_level'].forEach(k=>{
       const raw=localStorage.getItem(PREFIX+k);
       if(raw)data[k]=JSON.parse(raw);
     });
@@ -2365,7 +2369,7 @@ const Backup = {
         const data=JSON.parse(e.target.result);
         if(typeof data!=='object'||data===null)throw new Error('格式错误');
         let count=0;
-        ['transactions','habits','habit_logs','fitness','fitness_cal','schedules','shopping','media','runs','shoes','budget','fitness_goal','week_plan','theme'].forEach(k=>{
+        ['transactions','habits','habit_logs','fitness','fitness_cal','schedules','shopping','media','runs','shoes','budget','fitness_goal','week_plan','theme','chef_level'].forEach(k=>{
           if(data[k]!==undefined){
             try{
               localStorage.setItem(PREFIX+k,JSON.stringify(data[k]));
@@ -2467,7 +2471,7 @@ const Demo = {
     UI.toast('已更新：移除工作内容、新增跑步模块，演示数据已重置','success');
   },
   clear(){
-    ['transactions','habits','habit_logs','fitness','fitness_cal','schedules','shopping','media','runs','shoes','budget','fitness_goal','week_plan','demo_loaded','demo_version'].forEach(k=>Store.remove(k));
+    ['transactions','habits','habit_logs','fitness','fitness_cal','schedules','shopping','media','runs','shoes','budget','fitness_goal','week_plan','demo_loaded','demo_version','chef_level'].forEach(k=>Store.remove(k));
     Store.set('demo_loaded',true); // 阻止重新注入演示数据
     Store.set('demo_version',2);
   }
@@ -2476,8 +2480,11 @@ const Demo = {
 /* ===== 伴侣「小连」===== */
 const Chef = {
   name:'小连',
-  face(){
-    // 戴厨师帽的小家伙，身体颜色随皮肤 Logo 色变化
+  face(lv){
+    // 戴厨师帽的小家伙：Lv3+ 围围巾，Lv5+ 戴皇冠披星光
+    const scarf=lv>=3?`<path d="M40 63 Q60 74 80 63 L78 72 Q60 82 42 72 Z" fill="#F79A3E"/><circle cx="60" cy="73" r="3" fill="#FFD98A"/>`:'';
+    const crown=lv>=5?`<path d="M47 12 L51 18 L56 8 L60 16 L64 8 L69 18 L73 12 L72 20 L48 20 Z" fill="#FFC93C" stroke="#E8A820" stroke-width="1"/><circle cx="60" cy="14" r="1.5" fill="#FF7B6B"/>`:'';
+    const sparks=lv>=5?`<path d="M17 32 l2.2 4.8 4.8 2.2 -4.8 2.2 -2.2 4.8 -2.2 -4.8 -4.8 -2.2 4.8 -2.2 Z" fill="#FFD84D" opacity=".9"/><path d="M102 28 l1.7 3.7 3.7 1.7 -3.7 1.7 -1.7 3.7 -1.7 -3.7 -3.7 -1.7 3.7 -1.7 Z" fill="#FFD84D" opacity=".7"/>`:'';
     return `<svg viewBox="0 0 120 120" aria-hidden="true">
       <ellipse cx="60" cy="106" rx="32" ry="8" fill="rgba(0,0,0,.10)"/>
       <path d="M38 74 Q30 96 34 104 L86 104 Q90 96 82 74 Q74 62 60 62 Q46 62 38 74 Z" fill="var(--logo-b)"/>
@@ -2485,6 +2492,7 @@ const Chef = {
       <circle cx="60" cy="44" r="26" fill="#FFE0C2"/>
       <path d="M34 40 Q36 16 60 16 Q84 16 86 40 Q78 30 60 30 Q42 30 34 40 Z" fill="#FFFFFF"/>
       <ellipse cx="60" cy="16" rx="20" ry="8" fill="#FFFFFF"/>
+      ${crown}${scarf}
       <circle cx="50" cy="46" r="3.4" fill="#5B4632"/>
       <circle cx="70" cy="46" r="3.4" fill="#5B4632"/>
       <circle cx="51" cy="45" r="1" fill="#fff"/>
@@ -2494,7 +2502,43 @@ const Chef = {
       <path d="M54 55 Q60 60 66 55" stroke="#5B4632" stroke-width="2.4" fill="none" stroke-linecap="round"/>
       <circle cx="38" cy="84" r="6" fill="#FFE0C2"/>
       <circle cx="82" cy="84" r="6" fill="#FFE0C2"/>
+      ${sparks}
     </svg>`;
+  },
+  /* ===== 成长体系：元气随你的认真生活而累积（回溯历史记录）===== */
+  xp(){
+    let xp=0;
+    Data.habits.logs().forEach(l=>{if(l.value>0)xp+=10;});        // 每次习惯打卡
+    Data.schedules.all().forEach(s=>{if(s.done)xp+=15;});          // 每件完成的日程
+    xp+=Data.fitness.all().length*20;                              // 每条健身记录
+    xp+=Data.runs.all().length*20;                                 // 每次跑步
+    Data.media.all().forEach(m=>{if(m.status&&m.status.startsWith('已'))xp+=15;}); // 读完/看完的作品
+    return xp;
+  },
+  levels:[0,100,250,450,700,1000,1400,1900,2500,3200],
+  progress(){
+    const x=this.xp();
+    let lv=1;
+    for(let i=0;i<this.levels.length;i++){if(x>=this.levels[i])lv=i+1;}
+    if(lv>=this.levels.length)return{lv,xp:x,pct:100,toNext:0,maxed:true};
+    const lo=this.levels[lv-1],hi=this.levels[lv];
+    return{lv,xp:x,pct:clamp(Math.round((x-lo)/(hi-lo)*100),0,100),toNext:hi-x,maxed:false};
+  },
+  stageTitle(lv){
+    if(lv>=9)return '传说大厨';
+    if(lv>=7)return '大厨';
+    if(lv>=5)return '厨师';
+    if(lv>=3)return '见习厨师';
+    return '小小连';
+  },
+  /* 升级检测：首次只记录不庆祝，升级返回新等级，降级静默 */
+  grow(){
+    const lv=this.progress().lv;
+    const saved=Store.get('chef_level',0);
+    if(!saved){Store.set('chef_level',lv);return null;}
+    if(lv>saved){Store.set('chef_level',lv);return lv;}
+    if(lv<saved)Store.set('chef_level',lv);
+    return null;
   },
   say(){
     const hr=new Date().getHours();
@@ -2509,6 +2553,9 @@ const Chef = {
     if(undone&&schedLeft)return `还有 ${undone} 个习惯、${schedLeft} 件日程等着你，我陪你`;
     if(undone)return `还剩 ${undone} 个习惯没打卡，点一下就算完成`;
     if(schedLeft)return `今天还有 ${schedLeft} 件日程，别忘了哦`;
+    const p=this.progress();
+    if(p.maxed)return '我已经是传说大厨啦，这都多亏你认真过日子';
+    if(p.toNext<=25)return `再攒 ${p.toNext} 点元气，我就升到 Lv.${p.lv+1} 啦，帮我加把劲`;
     const budget=Data.budget.get();
     const exp=Data.transactions.monthExpense(currentMonth());
     if(budget>0&&exp/budget>=0.8)return '这个月预算用得有点快，剩下的日子要精打细算啦';
@@ -2527,10 +2574,15 @@ const Chef = {
     if(f){f.style.animation='none';void f.offsetWidth;f.style.animation='';}
   },
   render(){
-    return `<div class="chef-face" onclick="Chef.talk()" title="点点我">${this.face()}</div>
+    const p=this.progress();
+    return `<div class="chef-face" onclick="Chef.talk()" title="点点我">${this.face(p.lv)}</div>
       <div class="chef-bubble">
-        <span class="chef-tag">🍴 ${this.name}</span>
+        <span class="chef-tag">🍴 ${this.name} <i class="chef-lv">Lv.${p.lv} · ${this.stageTitle(p.lv)}</i></span>
         <p id="chef-line">${this.say()}</p>
+        <div class="chef-xp">
+          <div class="chef-xp-fill" style="width:${p.pct}%"></div>
+          <span class="chef-xp-txt">${p.maxed?'元气 MAX':`还差 ${p.toNext} 元气升 Lv.${p.lv+1}`}</span>
+        </div>
       </div>`;
   }
 };
@@ -2637,6 +2689,8 @@ const App = {
     Shopping.render();
     Media.render();
     this.checkBackupReminder();
+    const newLv=Chef.grow();
+    if(newLv)celebrate(`小连升到 Lv.${newLv} · ${Chef.stageTitle(newLv)}，样子也变啦！`);
   },
   checkBackupReminder(){
     const total=Store.totalItems();

@@ -26,6 +26,7 @@ echo "===== 构建 v$VER ====="
 rm -rf "$B/app" "$B/out"
 mkdir -p "$B/app/assets" "$B/app/java/com/lifewb/app" "$B/out/classes" "$B/out/dex" "$B/lib"
 cp "$WS/app/index.html" "$B/app/assets/index.html"
+cp "$WS"/app/assets/*.jpg "$B/app/assets/" 2>/dev/null || true
 cp "$WS/app/AndroidManifest.xml" "$B/app/AndroidManifest.xml"
 cp -r "$WS/app/res" "$B/app/res"
 cp "$WS/app/java/com/lifewb/app/MainActivity.java" "$B/app/java/com/lifewb/app/MainActivity.java"
